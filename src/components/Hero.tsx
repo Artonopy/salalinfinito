@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar } from 'lucide-react';
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -36,28 +36,31 @@ const Hero = () => {
       />
       
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-infinito-950/40 via-transparent to-background/95 z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-infinito-950/70 via-infinito-800/30 to-background/95 z-0" />
       
       {/* Content */}
       <div className="relative h-full z-10 flex flex-col items-center justify-center px-6 pt-16">
         <div className="max-w-4xl text-center">
           <div className="animate-fade-in-up">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-medium tracking-tight text-white mb-4 drop-shadow-sm">
-              Where Timeless Elegance<br className="hidden sm:block" /> Meets Modern Luxury
+            <span className="inline-block px-4 py-1.5 mb-6 bg-white/20 backdrop-blur-sm text-white font-medium text-sm rounded-full border border-white/30">
+              Milan's Premier Event Venue
+            </span>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-medium tracking-tight text-white mb-6 drop-shadow-md">
+              L'<span className="text-infinito-200">infinito</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8 drop-shadow">
-              L'infinito is the perfect venue for your unforgettable events, offering sophisticated spaces and exceptional service.
+            <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto mb-10 drop-shadow leading-relaxed">
+              Where timeless elegance meets modern luxury for your unforgettable events
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-5">
               <Link to="/gallery">
-                <Button className="bg-white/25 hover:bg-white/35 text-white border border-white/40 backdrop-blur-sm min-w-40 py-6">
+                <Button className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm min-w-40 py-6 text-base">
                   View Gallery
                 </Button>
               </Link>
               <Link to="/reservation">
-                <Button className="bg-infinito-900 hover:bg-infinito-800 text-white min-w-40 py-6 group">
-                  Make Reservation
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <Button className="bg-infinito-900 hover:bg-infinito-800 text-white min-w-40 py-6 text-base group">
+                  Book Your Event
+                  <Calendar className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
                 </Button>
               </Link>
             </div>

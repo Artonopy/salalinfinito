@@ -1,12 +1,9 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Calendar } from 'lucide-react';
-
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  
   useEffect(() => {
     const handleParallax = () => {
       if (heroRef.current) {
@@ -15,25 +12,18 @@ const Hero = () => {
         heroRef.current.style.transform = `translateY(${translateY}px)`;
       }
     };
-    
     window.addEventListener('scroll', handleParallax);
     return () => window.removeEventListener('scroll', handleParallax);
   }, []);
-
-  return (
-    <div className="relative h-screen overflow-hidden">
+  return <div className="relative h-screen overflow-hidden">
       {/* Background Image */}
-      <div 
-        ref={heroRef}
-        className="absolute inset-0 -z-10 bg-infinito-500"
-        style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=2968)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          height: '120%',
-          top: '-10%'
-        }}
-      />
+      <div ref={heroRef} className="absolute inset-0 -z-10 bg-infinito-500" style={{
+      backgroundImage: 'url(https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=2968)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      height: '120%',
+      top: '-10%'
+    }} />
       
       {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-infinito-950/70 via-infinito-800/30 to-background/95 z-0" />
@@ -42,9 +32,7 @@ const Hero = () => {
       <div className="relative h-full z-10 flex flex-col items-center justify-center px-6 pt-16">
         <div className="max-w-4xl text-center">
           <div className="animate-fade-in-up">
-            <span className="inline-block px-4 py-1.5 mb-6 bg-white/20 backdrop-blur-sm text-white font-medium text-sm rounded-full border border-white/30">
-              Milan's Premier Event Venue
-            </span>
+            <span className="inline-block px-4 py-1.5 mb-6 bg-white/20 backdrop-blur-sm text-white font-medium text-sm rounded-full border border-white/30">Senise PZ</span>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-medium tracking-tight text-white mb-6 drop-shadow-md">
               L'<span className="text-infinito-200">infinito</span>
             </h1>
@@ -74,8 +62,6 @@ const Hero = () => {
           <div className="absolute top-0 left-0 right-0 h-1/2 bg-white/70 animate-[slide_1.5s_ease-in-out_infinite]"></div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Hero;

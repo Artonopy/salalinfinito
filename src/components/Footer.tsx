@@ -16,7 +16,7 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 mr-3 text-infinito-300 mt-0.5" />
-                <span>123 Elegance Avenue<br />Milano, Italy 20121</span>
+                <span>123 Viale Eleganza<br />Milano, Italia 20121</span>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 mr-3 text-infinito-300" />
@@ -38,14 +38,14 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Clock className="h-5 w-5 mr-3 text-infinito-300" />
-                <span>Mon-Fri: 9am - 6pm</span>
+                <span>Lun-Ven: 9:00 - 18:00</span>
               </li>
             </ul>
           </div>
           
           {/* Quick Links */}
           <div>
-            <h3 className="font-serif text-xl text-white mb-6">Quick Links</h3>
+            <h3 className="font-serif text-xl text-white mb-6">Collegamenti Rapidi</h3>
             <ul className="space-y-3">
               <li>
                 <Link 
@@ -60,7 +60,7 @@ const Footer = () => {
                   to="/gallery" 
                   className="hover:text-white transition-colors hover:pl-1 inline-block duration-200"
                 >
-                  Gallery
+                  Galleria
                 </Link>
               </li>
               <li>
@@ -68,7 +68,7 @@ const Footer = () => {
                   to="/reservation" 
                   className="hover:text-white transition-colors hover:pl-1 inline-block duration-200"
                 >
-                  Make a Reservation
+                  Prenota
                 </Link>
               </li>
               <li>
@@ -76,7 +76,7 @@ const Footer = () => {
                   href="#services" 
                   className="hover:text-white transition-colors hover:pl-1 inline-block duration-200"
                 >
-                  Services
+                  Servizi
                 </a>
               </li>
               <li>
@@ -84,7 +84,7 @@ const Footer = () => {
                   href="#about" 
                   className="hover:text-white transition-colors hover:pl-1 inline-block duration-200"
                 >
-                  About Us
+                  Chi Siamo
                 </a>
               </li>
             </ul>
@@ -92,9 +92,9 @@ const Footer = () => {
           
           {/* Newsletter */}
           <div>
-            <h3 className="font-serif text-xl text-white mb-6">Follow Us</h3>
+            <h3 className="font-serif text-xl text-white mb-6">Seguici</h3>
             <p className="mb-6">
-              Follow us on social media for updates, event inspirations, and exclusive offers.
+              Seguici sui social media per aggiornamenti, ispirazioni per eventi e offerte esclusive.
             </p>
             <div className="flex space-x-4">
               <a 
@@ -130,7 +130,7 @@ const Footer = () => {
         
         {/* Copyright & Credits */}
         <div className="pt-8 border-t border-infinito-800/50 text-center text-sm text-infinito-400">
-          <p>© {currentYear} L'infinito. All rights reserved.</p>
+          <p>© {currentYear} L'infinito. Tutti i diritti riservati.</p>
         </div>
       </div>
     </footer>

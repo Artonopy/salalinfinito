@@ -24,8 +24,8 @@ const Header = () => {
   
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'Reservation', path: '/reservation' },
+    { name: 'Galleria', path: '/gallery' },
+    { name: 'Prenotazioni', path: '/reservation' },
   ];
   
   return (

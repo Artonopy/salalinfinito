@@ -35,25 +35,25 @@ import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
+    message: "Il nome deve contenere almeno 2 caratteri.",
   }),
   email: z.string().email({
-    message: "Please enter a valid email address.",
+    message: "Inserisci un indirizzo email valido.",
   }),
   phone: z.string().min(10, {
-    message: "Please enter a valid phone number.",
+    message: "Inserisci un numero di telefono valido.",
   }),
   date: z.date({
-    required_error: "Please select a date for your event.",
+    required_error: "Seleziona una data per il tuo evento.",
   }),
   time: z.string({
-    required_error: "Please select a time slot.",
+    required_error: "Seleziona una fascia oraria.",
   }),
   guests: z.string({
-    required_error: "Please select the number of guests.",
+    required_error: "Seleziona il numero di ospiti.",
   }),
   eventType: z.string({
-    required_error: "Please select an event type.",
+    required_error: "Seleziona un tipo di evento.",
   }),
   message: z.string().optional(),
 });
@@ -82,7 +82,7 @@ const ReservationForm = () => {
       console.log(data);
       setIsSubmitting(false);
       setIsSuccess(true);
-      toast.success("Reservation request submitted successfully!");
+      toast.success("Richiesta di prenotazione inviata con successo!");
       // Reset form after a delay
       setTimeout(() => {
         form.reset();
@@ -98,21 +98,21 @@ const ReservationForm = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-6">
             <Check size={30} />
           </div>
-          <h3 className="text-2xl font-serif mb-3">Thank You!</h3>
+          <h3 className="text-2xl font-serif mb-3">Grazie!</h3>
           <p className="text-infinito-700 mb-6">
-            Your reservation request has been submitted successfully. We'll contact you shortly to confirm the details.
+            La tua richiesta di prenotazione è stata inviata con successo. Ti contatteremo a breve per confermare i dettagli.
           </p>
           <Button 
             variant="outline" 
             onClick={() => setIsSuccess(false)}
           >
-            Make Another Reservation
+            Effettua Un'Altra Prenotazione
           </Button>
         </div>
       ) : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <h3 className="text-2xl md:text-3xl font-serif text-center mb-6">Reserve Your Event</h3>
+            <h3 className="text-2xl md:text-3xl font-serif text-center mb-6">Prenota Il Tuo Evento</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
@@ -120,9 +120,9 @@ const ReservationForm = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>Nome Completo</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your full name" {...field} />
+                      <Input placeholder="Il tuo nome completo" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -136,7 +136,7 @@ const ReservationForm = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your email address" {...field} />
+                      <Input placeholder="Il tuo indirizzo email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -150,9 +150,9 @@ const ReservationForm = () => {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                    <FormLabel>Numero di Telefono</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your phone number" {...field} />
+                      <Input placeholder="Il tuo numero di telefono" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -164,20 +164,20 @@ const ReservationForm = () => {
                 name="eventType"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Event Type</FormLabel>
+                    <FormLabel>Tipo di Evento</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select event type" />
+                          <SelectValue placeholder="Seleziona tipo di evento" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="wedding">Wedding</SelectItem>
-                        <SelectItem value="corporate">Corporate Event</SelectItem>
-                        <SelectItem value="birthday">Birthday Party</SelectItem>
-                        <SelectItem value="anniversary">Anniversary</SelectItem>
-                        <SelectItem value="graduation">Graduation</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
+                        <SelectItem value="wedding">Matrimonio</SelectItem>
+                        <SelectItem value="corporate">Evento Aziendale</SelectItem>
+                        <SelectItem value="birthday">Festa di Compleanno</SelectItem>
+                        <SelectItem value="anniversary">Anniversario</SelectItem>
+                        <SelectItem value="graduation">Laurea</SelectItem>
+                        <SelectItem value="other">Altro</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -192,7 +192,7 @@ const ReservationForm = () => {
                 name="date"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Event Date</FormLabel>
+                    <FormLabel>Data Evento</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -206,7 +206,7 @@ const ReservationForm = () => {
                             {field.value ? (
                               format(field.value, "PPP")
                             ) : (
-                              <span>Pick a date</span>
+                              <span>Scegli una data</span>
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
@@ -233,19 +233,19 @@ const ReservationForm = () => {
                 name="time"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Time Slot</FormLabel>
+                    <FormLabel>Fascia Oraria</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger className="flex items-center">
                           <Clock className="mr-2 h-4 w-4 opacity-70" />
-                          <SelectValue placeholder="Select time" />
+                          <SelectValue placeholder="Seleziona orario" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="morning">Morning (9AM - 12PM)</SelectItem>
-                        <SelectItem value="afternoon">Afternoon (1PM - 5PM)</SelectItem>
-                        <SelectItem value="evening">Evening (6PM - 10PM)</SelectItem>
-                        <SelectItem value="night">Night (7PM - 12AM)</SelectItem>
+                        <SelectItem value="morning">Mattina (9:00 - 12:00)</SelectItem>
+                        <SelectItem value="afternoon">Pomeriggio (13:00 - 17:00)</SelectItem>
+                        <SelectItem value="evening">Sera (18:00 - 22:00)</SelectItem>
+                        <SelectItem value="night">Notte (19:00 - 24:00)</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -258,20 +258,20 @@ const ReservationForm = () => {
                 name="guests"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Number of Guests</FormLabel>
+                    <FormLabel>Numero di Ospiti</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger className="flex items-center">
                           <Users className="mr-2 h-4 w-4 opacity-70" />
-                          <SelectValue placeholder="Select guests" />
+                          <SelectValue placeholder="Seleziona ospiti" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="1-50">1-50 guests</SelectItem>
-                        <SelectItem value="51-100">51-100 guests</SelectItem>
-                        <SelectItem value="101-150">101-150 guests</SelectItem>
-                        <SelectItem value="151-200">151-200 guests</SelectItem>
-                        <SelectItem value="201+">201+ guests</SelectItem>
+                        <SelectItem value="1-50">1-50 ospiti</SelectItem>
+                        <SelectItem value="51-100">51-100 ospiti</SelectItem>
+                        <SelectItem value="101-150">101-150 ospiti</SelectItem>
+                        <SelectItem value="151-200">151-200 ospiti</SelectItem>
+                        <SelectItem value="201+">201+ ospiti</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -285,16 +285,16 @@ const ReservationForm = () => {
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Additional Requirements</FormLabel>
+                  <FormLabel>Requisiti Aggiuntivi</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us any special requirements or questions you have"
+                      placeholder="Raccontaci eventuali requisiti speciali o domande che hai"
                       className="resize-none"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Optional: Include any specific details about your event
+                    Opzionale: Includi dettagli specifici sul tuo evento
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -306,7 +306,7 @@ const ReservationForm = () => {
               className="w-full bg-infinito-900 hover:bg-infinito-800 py-6 text-white"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Submitting..." : "Submit Reservation Request"}
+              {isSubmitting ? "Invio in corso..." : "Invia Richiesta di Prenotazione"}
             </Button>
           </form>
         </Form>

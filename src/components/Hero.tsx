@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -37,17 +38,17 @@ const Hero = () => {
               L'<span className="text-infinito-200">infinito</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto mb-10 drop-shadow leading-relaxed">
-              Where timeless elegance meets modern luxury for your unforgettable events
+              Dove l'eleganza senza tempo incontra il lusso moderno per i tuoi eventi indimenticabili
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-5">
               <Link to="/gallery">
                 <Button className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm min-w-40 py-6 text-base">
-                  View Gallery
+                  Galleria
                 </Button>
               </Link>
               <Link to="/reservation">
                 <Button className="bg-infinito-900 hover:bg-infinito-800 text-white min-w-40 py-6 text-base group">
-                  Book Your Event
+                  Prenota Il Tuo Evento
                   <Calendar className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
                 </Button>
               </Link>

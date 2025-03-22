@@ -12,23 +12,23 @@ const Index = () => {
   const features = [
     {
       icon: <Users className="h-10 w-10 text-infinito-700" />,
-      title: "Spacious Venue",
-      description: "Accommodate up to 300 guests in our elegant main hall, perfect for weddings and corporate events."
+      title: "Spazio Ampio",
+      description: "Ospita fino a 300 invitati nella nostra elegante sala principale, perfetta per matrimoni ed eventi aziendali."
     },
     {
       icon: <Utensils className="h-10 w-10 text-infinito-700" />,
-      title: "Gourmet Catering",
-      description: "Exceptional cuisine prepared by award-winning chefs tailored to your event's specific needs."
+      title: "Catering Gourmet",
+      description: "Cucina eccezionale preparata da chef premiati e personalizzata in base alle specifiche esigenze del tuo evento."
     },
     {
       icon: <Music className="h-10 w-10 text-infinito-700" />,
-      title: "State-of-the-art Sound",
-      description: "Advanced audio-visual systems ensure perfect sound and lighting for presentations or dancing."
+      title: "Audio all'Avanguardia",
+      description: "Sistemi audio-visivi avanzati garantiscono suono e illuminazione perfetti per presentazioni o danze."
     },
     {
       icon: <Star className="h-10 w-10 text-infinito-700" />,
-      title: "Personalized Service",
-      description: "Our experienced event coordinators assist with every detail to create a seamless experience."
+      title: "Servizio Personalizzato",
+      description: "I nostri coordinatori di eventi esperti ti assistono in ogni dettaglio per creare un'esperienza impeccabile."
     }
   ];
 
@@ -37,17 +37,17 @@ const Index = () => {
     {
       id: 1,
       src: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-      alt: "Elegant wedding reception with chandeliers"
+      alt: "Elegante ricevimento di nozze con lampadari"
     },
     {
       id: 2,
       src: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-      alt: "Business conference setup with modern decor"
+      alt: "Allestimento per conferenza aziendale con arredamento moderno"
     },
     {
       id: 3,
       src: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-      alt: "Birthday celebration with decorative lighting"
+      alt: "Celebrazione di compleanno con illuminazione decorativa"
     }
   ];
   
@@ -66,11 +66,11 @@ const Index = () => {
       <section className="py-20 px-6" id="about">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16 animate-fade-in-up">
-            <span className="inline-block px-3 py-1 bg-infinito-100 text-infinito-900 font-medium text-sm rounded-full mb-3">About L'infinito</span>
-            <h2 className="text-3xl md:text-4xl font-serif mb-6">A Venue Like No Other</h2>
+            <span className="inline-block px-3 py-1 bg-infinito-100 text-infinito-900 font-medium text-sm rounded-full mb-3">Chi Siamo</span>
+            <h2 className="text-3xl md:text-4xl font-serif mb-6">Una Location Senza Paragoni</h2>
             <p className="text-infinito-700 max-w-3xl mx-auto">
-              L'infinito is Milan's premier event venue, offering a perfect blend of timeless elegance and modern amenities. 
-              Our spaces are designed to transform your vision into unforgettable experiences.
+              L'infinito è la location per eventi di punta di Milano, che offre un perfetto connubio tra eleganza senza tempo e comfort moderni.
+              I nostri spazi sono progettati per trasformare la tua visione in esperienze indimenticabili.
             </p>
           </div>
           
@@ -79,7 +79,7 @@ const Index = () => {
               <div className="aspect-[4/5] rounded-2xl overflow-hidden image-reveal">
                 <img 
                   src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
-                  alt="L'infinito main hall" 
+                  alt="Salone principale de L'infinito" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -87,20 +87,20 @@ const Index = () => {
             </div>
             
             <div className="animate-fade-in-up animate-delay-200">
-              <h3 className="text-2xl font-serif mb-6">Our Story</h3>
+              <h3 className="text-2xl font-serif mb-6">La Nostra Storia</h3>
               <p className="text-infinito-700 mb-6">
-                Founded in 1995, L'infinito was born from a vision to create a space where memorable moments come to life. 
-                What began as a historic building has been transformed into a versatile venue while preserving its 
-                architectural charm and character.
+                Fondato nel 1995, L'infinito è nato dalla visione di creare uno spazio dove i momenti memorabili prendono vita.
+                Quello che era un edificio storico è stato trasformato in una location versatile mantenendo il suo fascino 
+                architettonico e il suo carattere.
               </p>
               <p className="text-infinito-700 mb-8">
-                Today, we continue our tradition of excellence, hosting everything from intimate gatherings to grand 
-                celebrations, with unparalleled attention to detail and personalized service that has made us Milan's 
-                venue of choice for discerning clients.
+                Oggi, continuiamo la nostra tradizione di eccellenza, ospitando dalle riunioni intime alle grandi 
+                celebrazioni, con un'attenzione ai dettagli e un servizio personalizzato che ci ha resi la location 
+                preferita a Milano per clienti esigenti.
               </p>
               <Link to="/gallery">
                 <Button className="group" variant="outline">
-                  Explore Our Spaces
+                  Esplora i Nostri Spazi
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
@@ -113,10 +113,10 @@ const Index = () => {
       <section className="py-20 px-6 bg-infinito-50" id="services">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16 animate-fade-in-up">
-            <span className="inline-block px-3 py-1 bg-infinito-100 text-infinito-900 font-medium text-sm rounded-full mb-3">Our Services</span>
-            <h2 className="text-3xl md:text-4xl font-serif mb-6">Everything You Need</h2>
+            <span className="inline-block px-3 py-1 bg-infinito-100 text-infinito-900 font-medium text-sm rounded-full mb-3">I Nostri Servizi</span>
+            <h2 className="text-3xl md:text-4xl font-serif mb-6">Tutto Ciò di Cui Hai Bisogno</h2>
             <p className="text-infinito-700 max-w-3xl mx-auto">
-              We offer comprehensive services to ensure your event is flawless from start to finish.
+              Offriamo servizi completi per garantire che il tuo evento sia impeccabile dall'inizio alla fine.
             </p>
           </div>
           
@@ -141,10 +141,10 @@ const Index = () => {
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16 animate-fade-in-up">
-            <span className="inline-block px-3 py-1 bg-infinito-100 text-infinito-900 font-medium text-sm rounded-full mb-3">Gallery Preview</span>
-            <h2 className="text-3xl md:text-4xl font-serif mb-6">Glimpses of Elegance</h2>
+            <span className="inline-block px-3 py-1 bg-infinito-100 text-infinito-900 font-medium text-sm rounded-full mb-3">Anteprima Galleria</span>
+            <h2 className="text-3xl md:text-4xl font-serif mb-6">Scorci di Eleganza</h2>
             <p className="text-infinito-700 max-w-3xl mx-auto">
-              Browse through our collection of past events to get inspired for your own special occasion.
+              Sfoglia la nostra collezione di eventi passati per trovare ispirazione per la tua occasione speciale.
             </p>
           </div>
           
@@ -166,7 +166,7 @@ const Index = () => {
           <div className="text-center animate-fade-in-up">
             <Link to="/gallery">
               <Button className="bg-infinito-900 hover:bg-infinito-800 text-white group">
-                View Full Gallery
+                Visualizza Galleria Completa
                 <Image className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -177,14 +177,14 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-20 px-6 bg-infinito-900 text-white">
         <div className="container mx-auto max-w-4xl text-center animate-fade-in-up">
-          <h2 className="text-3xl md:text-4xl font-serif mb-6">Ready to Plan Your Event?</h2>
+          <h2 className="text-3xl md:text-4xl font-serif mb-6">Pronto a Pianificare il Tuo Evento?</h2>
           <p className="text-white/80 max-w-2xl mx-auto mb-10">
-            Contact us today to check availability for your date and start planning your perfect event.
+            Contattaci oggi per verificare la disponibilità per la tua data e iniziare a pianificare il tuo evento perfetto.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link to="/reservation">
               <Button className="bg-white text-infinito-900 hover:bg-infinito-100 min-w-40 py-6 group">
-                Make Reservation
+                Prenota Ora
                 <Calendar className="ml-2 h-4 w-4" />
               </Button>
             </Link>

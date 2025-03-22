@@ -14,21 +14,21 @@ const ReservationPage = () => {
   const contactInfo = [
     {
       icon: <Phone className="h-6 w-6 text-infinito-700" />,
-      title: "Phone",
+      title: "Telefono",
       content: "+39 123 456 7890",
-      description: "Our team is available Monday through Friday from 9am to 6pm."
+      description: "Il nostro team è disponibile dal lunedì al venerdì dalle 9:00 alle 18:00."
     },
     {
       icon: <Mail className="h-6 w-6 text-infinito-700" />,
       title: "Email",
       content: "info@linfinito.com",
-      description: "We typically respond to inquiries within 24 hours."
+      description: "Rispondiamo alle richieste solitamente entro 24 ore."
     },
     {
       icon: <Clock className="h-6 w-6 text-infinito-700" />,
-      title: "Availability",
-      content: "7 Days a Week",
-      description: "The venue is available for events throughout the year."
+      title: "Disponibilità",
+      content: "7 Giorni su 7",
+      description: "La location è disponibile per eventi durante tutto l'anno."
     }
   ];
 
@@ -40,10 +40,10 @@ const ReservationPage = () => {
       <section className="pt-32 pb-12 px-6 bg-infinito-50">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center animate-fade-in-up">
-            <span className="inline-block px-3 py-1 bg-infinito-100 text-infinito-900 font-medium text-sm rounded-full mb-3">Reservations</span>
-            <h1 className="text-4xl md:text-5xl font-serif mb-4">Book Your Event</h1>
+            <span className="inline-block px-3 py-1 bg-infinito-100 text-infinito-900 font-medium text-sm rounded-full mb-3">Prenotazioni</span>
+            <h1 className="text-4xl md:text-5xl font-serif mb-4">Prenota Il Tuo Evento</h1>
             <p className="text-infinito-700 max-w-2xl mx-auto">
-              Fill out the form below to request a reservation at L'infinito, and our team will contact you shortly to confirm details.
+              Completa il modulo sottostante per richiedere una prenotazione a L'infinito, e il nostro team ti contatterà a breve per confermare i dettagli.
             </p>
           </div>
         </div>
@@ -55,7 +55,7 @@ const ReservationPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Contact Information */}
             <div className="order-2 lg:order-1">
-              <h2 className="text-2xl font-serif mb-6">Contact Information</h2>
+              <h2 className="text-2xl font-serif mb-6">Informazioni di Contatto</h2>
               
               <div className="space-y-8">
                 {contactInfo.map((item, index) => (
@@ -73,14 +73,14 @@ const ReservationPage = () => {
               </div>
               
               <div className="mt-12 p-6 bg-infinito-100 rounded-xl animate-fade-in-up animate-delay-300">
-                <h3 className="text-lg font-medium mb-4">Venue Details</h3>
+                <h3 className="text-lg font-medium mb-4">Dettagli della Location</h3>
                 <ul className="space-y-2 text-infinito-700">
-                  <li>• Capacity: Up to 300 guests</li>
-                  <li>• Multiple spaces available</li>
-                  <li>• Full catering services</li>
-                  <li>• Audiovisual equipment</li>
-                  <li>• Ample parking space</li>
-                  <li>• Wheelchair accessible</li>
+                  <li>• Capacità: Fino a 300 ospiti</li>
+                  <li>• Diversi spazi disponibili</li>
+                  <li>• Servizi completi di catering</li>
+                  <li>• Attrezzature audiovisive</li>
+                  <li>• Ampio parcheggio</li>
+                  <li>• Accessibile per sedie a rotelle</li>
                 </ul>
               </div>
             </div>
@@ -97,9 +97,9 @@ const ReservationPage = () => {
       <section className="py-16 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-10 animate-fade-in-up">
-            <h2 className="text-3xl font-serif mb-4">Our Location</h2>
+            <h2 className="text-3xl font-serif mb-4">La Nostra Posizione</h2>
             <p className="text-infinito-700 max-w-2xl mx-auto">
-              L'infinito is conveniently located in the heart of Milan, easily accessible by public transportation and with ample parking.
+              L'infinito è situato nel cuore di Milano, facilmente raggiungibile con i mezzi pubblici e con ampio parcheggio.
             </p>
           </div>
           

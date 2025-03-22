@@ -12,9 +12,9 @@ const Gallery: React.FC<GalleryProps> = ({ images, className }) => {
   const [activeImage, setActiveImage] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   
-  const categories = ['All', ...new Set(images.map(img => img.category || 'Other'))];
+  const categories = ['Tutti', ...new Set(images.map(img => img.category || 'Altro'))];
   
-  const filteredImages = activeCategory && activeCategory !== 'All'
+  const filteredImages = activeCategory && activeCategory !== 'Tutti'
     ? images.filter(img => img.category === activeCategory)
     : images;
 

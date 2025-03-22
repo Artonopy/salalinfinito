@@ -1,16 +1,29 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface GalleryProps {
-  images: { id: number; src: string; alt: string; category?: string }[];
+  images?: { id: number; src: string; alt: string; category?: string }[];
   className?: string;
 }
 
-const Gallery: React.FC<GalleryProps> = ({ images, className }) => {
+const Gallery: React.FC<GalleryProps> = ({ images: propImages, className }) => {
   const [activeImage, setActiveImage] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [images, setImages] = useState<{ id: number; src: string; alt: string; category?: string }[]>([]);
+  
+  // Load images from localStorage or use prop images
+  useEffect(() => {
+    if (propImages && propImages.length > 0) {
+      setImages(propImages);
+    } else {
+      const savedImages = localStorage.getItem('galleryImages');
+      if (savedImages) {
+        setImages(JSON.parse(savedImages));
+      }
+    }
+  }, [propImages]);
   
   const categories = ['Tutti', ...new Set(images.map(img => img.category || 'Altro'))];
   

@@ -1,11 +1,10 @@
-
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Calendar, Image, Star, Users, Music, Utensils, ArrowRight } from 'lucide-react';
+import { Calendar, Image, Star, Users, Utensils, ArrowRight } from 'lucide-react';
 
 const Index = () => {
   // Features data
@@ -19,11 +18,6 @@ const Index = () => {
       icon: <Utensils className="h-10 w-10 text-infinito-700" />,
       title: "Catering Gourmet",
       description: "Cucina eccezionale preparata da chef premiati e personalizzata in base alle specifiche esigenze del tuo evento."
-    },
-    {
-      icon: <Music className="h-10 w-10 text-infinito-700" />,
-      title: "Audio all'Avanguardia",
-      description: "Sistemi audio-visivi avanzati garantiscono suono e illuminazione perfetti per presentazioni o danze."
     },
     {
       icon: <Star className="h-10 w-10 text-infinito-700" />,
@@ -120,7 +114,7 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div 
                 key={index}

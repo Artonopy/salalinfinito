@@ -87,6 +87,14 @@ const Footer = () => {
                   Chi Siamo
                 </a>
               </li>
+              <li>
+                <Link 
+                  to="/admin" 
+                  className="hover:text-white transition-colors hover:pl-1 inline-block duration-200"
+                >
+                  Admin
+                </Link>
+              </li>
             </ul>
           </div>
           

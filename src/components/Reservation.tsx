@@ -39,7 +39,7 @@ const formSchema = z.object({
   }),
   email: z.string().email({
     message: "Inserisci un indirizzo email valido.",
-  }),
+  }).optional(),
   phone: z.string().min(10, {
     message: "Inserisci un numero di telefono valido.",
   }),
@@ -134,7 +134,7 @@ const ReservationForm = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Email (Opzionale)</FormLabel>
                     <FormControl>
                       <Input placeholder="Il tuo indirizzo email" {...field} />
                     </FormControl>

@@ -99,13 +99,13 @@ const ReservationPage = () => {
           <div className="text-center mb-10 animate-fade-in-up">
             <h2 className="text-3xl font-serif mb-4">La Nostra Posizione</h2>
             <p className="text-infinito-700 max-w-2xl mx-auto">
-              L'infinito è situato nel cuore di Milano, facilmente raggiungibile con i mezzi pubblici e con ampio parcheggio.
+              L'infinito è situato nel cuore di Rotondella, facilmente raggiungibile e con ampio parcheggio.
             </p>
           </div>
           
           <div className="aspect-[16/9] w-full rounded-xl overflow-hidden shadow-md animate-fade-in-up">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2798.309269541819!2d9.186261376713288!3d45.46533623566251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4786c6a906ef60a3%3A0x86a22d0c95d9919!2sMilan%2C%20Metropolitan%20City%20of%20Milan%2C%20Italy!5e0!3m2!1sen!2sus!4v1685535245668!5m2!1sen!2sus"
+              src="https://www.google.it/maps/place/L'+Infinito/@40.1479802,16.2879928,187m/data=!3m1!1e3!4m6!3m5!1s0x1338b31a89f30815:0x1cc5000d8080fbc4!8m2!3d40.1480251!4d16.2885931!16s%2Fg%2F11rl88z8z_?entry=ttu&g_ep=EgoyMDI1MDMxOS4yIKXMDSoASAFQAw%3D%3D"
               width="100%"
               height="100%"
               style={{ border: 0 }}

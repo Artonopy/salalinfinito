@@ -164,7 +164,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ onSubmit, isSubmitting }) => 
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "pl-3 text-left font-normal",
+                          "pl-3 text-left font-normal h-10",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -201,7 +201,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ onSubmit, isSubmitting }) => 
                 <FormLabel>Fascia Oraria</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="flex items-center">
+                    <SelectTrigger className="flex items-center h-10">
                       <Clock className="mr-2 h-4 w-4 opacity-70" />
                       <SelectValue placeholder="Seleziona orario" />
                     </SelectTrigger>
@@ -225,7 +225,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ onSubmit, isSubmitting }) => 
                 <FormLabel>Numero di Ospiti</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="flex items-center">
+                    <SelectTrigger className="flex items-center h-10">
                       <Users className="mr-2 h-4 w-4 opacity-70" />
                       <SelectValue placeholder="Seleziona ospiti" />
                     </SelectTrigger>

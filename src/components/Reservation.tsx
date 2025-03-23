@@ -238,7 +238,7 @@ const ReservationForm = () => {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "pl-3 text-left font-normal",
+                              "pl-3 text-left font-normal h-10", // Set a consistent height
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -275,7 +275,7 @@ const ReservationForm = () => {
                     <FormLabel>Fascia Oraria</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="flex items-center">
+                        <SelectTrigger className="flex items-center h-10"> {/* Set a consistent height */}
                           <Clock className="mr-2 h-4 w-4 opacity-70" />
                           <SelectValue placeholder="Seleziona orario" />
                         </SelectTrigger>
@@ -300,7 +300,7 @@ const ReservationForm = () => {
                     <FormLabel>Numero di Ospiti</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="flex items-center">
+                        <SelectTrigger className="flex items-center h-10"> {/* Set a consistent height */}
                           <Users className="mr-2 h-4 w-4 opacity-70" />
                           <SelectValue placeholder="Seleziona ospiti" />
                         </SelectTrigger>

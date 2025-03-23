@@ -47,7 +47,7 @@ export const sendBookingEmail = async (booking: Booking): Promise<boolean> => {
   try {
     // In a real app, you would use a proper email service API here
     // For demo purposes, we'll simulate sending an email with fetch
-    console.log(`Email would be sent to antoniomorell@tiscali.it with booking details:`, booking);
+    console.log(`Email would be sent to antoniomorelli@tiscali.it with booking details:`, booking);
     
     // Simulate API call
     return true;

@@ -30,7 +30,7 @@ const Admin = () => {
       localStorage.setItem('isAdminAuthenticated', 'true');
       
       // Redirect to admin dashboard
-      navigate('/admin/gallery');
+      navigate('/admin/bookings');
       
       toast({
         title: 'Accesso Effettuato',

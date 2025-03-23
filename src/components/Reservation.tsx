@@ -32,6 +32,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { checkBookingConflict, saveBooking, sendBookingEmail } from "@/utils/bookingUtils";
+import { Booking } from "@/types/booking";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -77,9 +79,46 @@ const ReservationForm = () => {
   function onSubmit(data: FormValues) {
     setIsSubmitting(true);
     
-    // Simulate API call
+    // Convert date to ISO string format
+    const dateString = data.date.toISOString().split('T')[0];
+    
+    // Check for booking conflicts
+    const conflict = checkBookingConflict(dateString, data.time);
+    
+    if (conflict) {
+      setIsSubmitting(false);
+      toast.error("La data e l'orario selezionati non sono disponibili. Seleziona un altro orario o data.");
+      return;
+    }
+    
+    // Create booking object
+    const newBooking: Booking = {
+      id: Date.now().toString(),
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      date: dateString,
+      time: data.time,
+      guests: data.guests,
+      eventType: data.eventType,
+      message: data.message,
+      createdAt: new Date().toISOString(),
+      status: 'pending'
+    };
+    
+    // Save booking to localStorage
+    saveBooking(newBooking);
+    
+    // Send email notification
+    sendBookingEmail(newBooking)
+      .then(success => {
+        if (!success) {
+          toast.warning("La prenotazione è stata salvata, ma potrebbe esserci stato un problema con l'invio dell'email di notifica.");
+        }
+      });
+    
+    // Update UI
     setTimeout(() => {
-      console.log(data);
       setIsSubmitting(false);
       setIsSuccess(true);
       toast.success("Richiesta di prenotazione inviata con successo!");

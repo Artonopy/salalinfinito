@@ -15,13 +15,12 @@ const ReservationPage = () => {
     {
       icon: <Phone className="h-6 w-6 text-infinito-700" />,
       title: "Telefono",
-      content: "+39 123 456 7890",
-      description: "Il nostro team è disponibile dal lunedì al venerdì dalle 9:00 alle 18:00."
+      content: "+39 329 596 6969",
     },
     {
       icon: <Mail className="h-6 w-6 text-infinito-700" />,
       title: "Email",
-      content: "info@linfinito.com",
+      content: "@linfinito.com",
       description: "Rispondiamo alle richieste solitamente entro 24 ore."
     },
     {

@@ -102,17 +102,19 @@ const ReservationPage = () => {
             </p>
           </div>
           
-          <div className="aspect-[16/9] w-full rounded-xl overflow-hidden shadow-md animate-fade-in-up">
-            <iframe
-              src="https://www.google.it/maps/place/L'+Infinito/@40.1479802,16.2879928,187m/data=!3m1!1e3!4m6!3m5!1s0x1338b31a89f30815:0x1cc5000d8080fbc4!8m2!3d40.1480251!4d16.2885931!16s%2Fg%2F11rl88z8z_?entry=ttu&g_ep=EgoyMDI1MDMxOS4yIKXMDSoASAFQAw%3D%3D"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen={true}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="L'infinito Location"
-            ></iframe>
+          <div className="mx-auto animate-fade-in-up">
+            <div style={{overflow:"hidden", maxWidth:"100%", width:"700px", height:"500px"}} className="mx-auto rounded-xl shadow-md">
+              <div id="google-maps-display" style={{height:"100%", width:"100%", maxWidth:"100%"}}>
+                <iframe 
+                  style={{height:"100%", width:"100%", border:"0"}} 
+                  frameBorder="0" 
+                  src="https://www.google.com/maps/embed/v1/place?q=sala+l+infinito+senise&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+                  allowFullScreen
+                  title="L'infinito Location"
+                ></iframe>
+              </div>
+              <style>{`#google-maps-display img.text-marker{max-width:none!important;background:none!important;}img{max-width:none}`}</style>
+            </div>
           </div>
         </div>
       </section>

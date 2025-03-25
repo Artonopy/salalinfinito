@@ -115,7 +115,7 @@ const Footer = () => {
                 <Instagram size={20} />
               </a>
               <a 
-                href="https://facebook.com" 
+                href="https://www.facebook.com/p/Linfinito-100063610494417/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-infinito-800/50 flex items-center justify-center hover:bg-infinito-700 transition-colors"

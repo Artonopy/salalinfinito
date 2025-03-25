@@ -152,6 +152,7 @@ const ReservationForm = () => {
             <h3 className="text-2xl md:text-3xl font-serif text-center mb-6">Prenota Il Tuo Evento</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Name field */}
               <FormField
                 control={form.control}
                 name="name"
@@ -166,6 +167,7 @@ const ReservationForm = () => {
                 )}
               />
               
+              {/* Email field */}
               <FormField
                 control={form.control}
                 name="email"
@@ -182,6 +184,7 @@ const ReservationForm = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Phone field */}
               <FormField
                 control={form.control}
                 name="phone"
@@ -196,6 +199,7 @@ const ReservationForm = () => {
                 )}
               />
               
+              {/* Event type field */}
               <FormField
                 control={form.control}
                 name="eventType"
@@ -224,6 +228,7 @@ const ReservationForm = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Date field - fixed alignment with matching height and styles */}
               <FormField
                 control={form.control}
                 name="date"
@@ -236,15 +241,17 @@ const ReservationForm = () => {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "pl-3 text-left font-normal h-10", // Fixed height to match time field
+                              "w-full h-10 pl-3 text-left font-normal flex items-center",
                               !field.value && "text-muted-foreground"
                             )}
                           >
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Scegli una data</span>
-                            )}
+                            <span className="flex-grow truncate">
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Scegli una data</span>
+                              )}
+                            </span>
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
                         </FormControl>
@@ -265,6 +272,7 @@ const ReservationForm = () => {
                 )}
               />
               
+              {/* Time field */}
               <FormField
                 control={form.control}
                 name="time"
@@ -273,7 +281,7 @@ const ReservationForm = () => {
                     <FormLabel>Fascia Oraria</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="flex items-center h-10"> {/* Consistent height */}
+                        <SelectTrigger className="flex items-center h-10 w-full">
                           <Clock className="mr-2 h-4 w-4 opacity-70" />
                           <SelectValue placeholder="Seleziona orario" />
                         </SelectTrigger>
@@ -290,6 +298,7 @@ const ReservationForm = () => {
                 )}
               />
               
+              {/* Guests field */}
               <FormField
                 control={form.control}
                 name="guests"
@@ -298,7 +307,7 @@ const ReservationForm = () => {
                     <FormLabel>Numero di Ospiti</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="flex items-center h-10"> {/* Consistent height */}
+                        <SelectTrigger className="flex items-center h-10 w-full">
                           <Users className="mr-2 h-4 w-4 opacity-70" />
                           <SelectValue placeholder="Seleziona ospiti" />
                         </SelectTrigger>
@@ -317,6 +326,7 @@ const ReservationForm = () => {
               />
             </div>
             
+            {/* Additional requirements field */}
             <FormField
               control={form.control}
               name="message"
@@ -338,6 +348,7 @@ const ReservationForm = () => {
               )}
             />
             
+            {/* Submit button */}
             <Button 
               type="submit" 
               className="w-full bg-infinito-900 hover:bg-infinito-800 py-6 text-white"

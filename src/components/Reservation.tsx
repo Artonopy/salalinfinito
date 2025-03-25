@@ -228,12 +228,12 @@ const ReservationForm = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Date field - fixed alignment with matching height and styles */}
+              {/* Date field - improved alignment with time and guests fields */}
               <FormField
                 control={form.control}
                 name="date"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
+                  <FormItem>
                     <FormLabel>Data Evento</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
@@ -241,18 +241,18 @@ const ReservationForm = () => {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-full h-10 pl-3 text-left font-normal flex items-center",
+                              "h-10 w-full pl-3 text-left font-normal flex items-center justify-between",
                               !field.value && "text-muted-foreground"
                             )}
                           >
-                            <span className="flex-grow truncate">
+                            <span className="truncate">
                               {field.value ? (
                                 format(field.value, "PPP")
                               ) : (
-                                <span>Scegli una data</span>
+                                "Scegli una data"
                               )}
                             </span>
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            <CalendarIcon className="h-4 w-4 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>

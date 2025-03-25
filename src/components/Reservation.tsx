@@ -251,7 +251,7 @@ const ReservationForm = () => {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
+                      <PopoverContent className="flex items-center h-10">
                         <Calendar
                           mode="single"
                           selected={field.value}

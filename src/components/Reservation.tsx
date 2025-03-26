@@ -32,7 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { checkBookingConflict, saveBooking, sendBookingEmail } from "@/utils/bookingUtils";
+import { checkBookingConflict, saveBooking, sendBookingSMS } from "@/utils/bookingUtils";
 import { Booking } from "@/types/booking";
 
 const formSchema = z.object({
@@ -107,11 +107,11 @@ const ReservationForm = () => {
     // Save booking to localStorage
     saveBooking(newBooking);
     
-    // Send email notification
-    sendBookingEmail(newBooking)
+    // Send SMS notification instead of email
+    sendBookingSMS(newBooking)
       .then(success => {
         if (!success) {
-          toast.warning("La prenotazione è stata salvata, ma potrebbe esserci stato un problema con l'invio dell'email di notifica.");
+          toast.warning("La prenotazione è stata salvata, ma potrebbe esserci stato un problema con l'invio dell'SMS di notifica.");
         }
       });
     

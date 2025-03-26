@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
@@ -23,10 +22,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { getBookings, updateBookingStatus, deleteBooking } from '@/utils/bookingUtils';
+import { getBookings, updateBookingStatus, deleteBooking, sendBookingSMS } from '@/utils/bookingUtils';
 import { Booking } from '@/types/booking';
 import { toast } from 'sonner';
-import { MoreHorizontal, Mail, Trash, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { MoreHorizontal, Mail, Trash, CheckCircle, XCircle, Clock, Image, LogOut } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -35,7 +34,6 @@ const AdminBookings = () => {
   const [activeTab, setActiveTab] = useState('all');
   const navigate = useNavigate();
 
-  // Check auth status
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('isAdminAuthenticated') === 'true';
     if (!isAuthenticated) {
@@ -43,7 +41,6 @@ const AdminBookings = () => {
     }
   }, [navigate]);
 
-  // Load bookings
   useEffect(() => {
     const loadBookings = () => {
       const allBookings = getBookings();
@@ -51,7 +48,6 @@ const AdminBookings = () => {
     };
 
     loadBookings();
-    // Set up interval to check for new bookings
     const interval = setInterval(loadBookings, 30000);
     
     return () => clearInterval(interval);
@@ -76,7 +72,6 @@ const AdminBookings = () => {
     toast.success('Prenotazione eliminata definitivamente');
   };
 
-  // Filter bookings based on active tab
   const filteredBookings = bookings.filter(booking => {
     if (activeTab === 'all') return true;
     return booking.status === activeTab;
@@ -90,7 +85,6 @@ const AdminBookings = () => {
     }
   };
 
-  // Map time codes to human-readable format
   const timeMap: Record<string, string> = {
     'morning': 'Mattina (9:00 - 12:00)',
     'afternoon': 'Pomeriggio (13:00 - 17:00)',
@@ -98,7 +92,6 @@ const AdminBookings = () => {
     'night': 'Notte (19:00 - 24:00)'
   };
 
-  // Map event types to human-readable format
   const eventTypeMap: Record<string, string> = {
     'wedding': 'Matrimonio',
     'corporate': 'Evento Aziendale',
@@ -108,7 +101,6 @@ const AdminBookings = () => {
     'other': 'Altro'
   };
 
-  // Get status badge
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'confirmed':
@@ -121,20 +113,30 @@ const AdminBookings = () => {
     }
   };
 
-  const sendTestEmail = async () => {
+  const sendTestSMS = async () => {
     if (bookings.length === 0) {
-      toast.error('Nessuna prenotazione disponibile per testare l\'invio email');
+      toast.error('Nessuna prenotazione disponibile per testare l\'invio SMS');
       return;
     }
 
     toast.promise(
       new Promise(resolve => setTimeout(resolve, 2000)),
       {
-        loading: 'Invio email di test in corso...',
-        success: 'Email di test inviata con successo a antoniomorelli@tiscali.it',
-        error: 'Errore nell\'invio dell\'email di test'
+        loading: 'Invio SMS di test in corso...',
+        success: 'SMS di test inviato con successo',
+        error: 'Errore nell\'invio dell\'SMS di test'
       }
     );
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAdminAuthenticated');
+    navigate('/admin');
+    
+    toast({
+      title: 'Disconnessione Effettuata',
+      description: 'Sei stato disconnesso dall\'area amministrativa.'
+    });
   };
 
   return (
@@ -150,13 +152,18 @@ const AdminBookings = () => {
                 Gestisci tutte le richieste di prenotazione per eventi
               </p>
             </div>
-            <div className="mt-4 md:mt-0 space-x-2">
+            <div className="mt-4 md:mt-0 space-x-2 flex">
               <Button variant="outline" onClick={() => navigate('/admin/gallery')}>
+                <Image className="mr-2 h-4 w-4" />
                 Gestione Galleria
               </Button>
-              <Button variant="outline" onClick={sendTestEmail}>
+              <Button variant="outline" onClick={sendTestSMS}>
                 <Mail className="mr-2 h-4 w-4" />
-                Testa Email
+                Testa SMS
+              </Button>
+              <Button variant="outline" onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                Esci
               </Button>
             </div>
           </div>

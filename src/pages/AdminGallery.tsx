@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -20,7 +19,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
-import { PlusCircle, Trash2, LogOut, Edit, Image as ImageIcon } from 'lucide-react';
+import { PlusCircle, Trash2, LogOut, Edit, Image as ImageIcon, FileText } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -42,19 +41,16 @@ const AdminGallery = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if admin is authenticated
     const isAuthenticated = localStorage.getItem('isAdminAuthenticated') === 'true';
     if (!isAuthenticated) {
       navigate('/admin');
       return;
     }
 
-    // Load images from localStorage
     const savedImages = localStorage.getItem('galleryImages');
     if (savedImages) {
       setImages(JSON.parse(savedImages));
     } else {
-      // Initialize with default gallery images if nothing in storage
       const defaultImages = [
         {
           id: 1,
@@ -91,7 +87,6 @@ const AdminGallery = () => {
       const file = e.target.files[0];
       setNewImage(file);
       
-      // Create preview
       const reader = new FileReader();
       reader.onload = () => {
         setPreview(reader.result as string);
@@ -104,7 +99,6 @@ const AdminGallery = () => {
     e.preventDefault();
     
     if (editingId !== null) {
-      // Edit existing image
       const updatedImages = images.map(img => 
         img.id === editingId 
           ? { ...img, alt: title, category: category } 
@@ -119,7 +113,6 @@ const AdminGallery = () => {
         description: 'L\'immagine è stata aggiornata con successo.'
       });
     } else if (newImage && preview && title) {
-      // Add new image
       const newId = images.length > 0 ? Math.max(...images.map(img => img.id)) + 1 : 1;
       
       const newImageObj = {
@@ -132,7 +125,6 @@ const AdminGallery = () => {
       const updatedImages = [...images, newImageObj];
       setImages(updatedImages);
       
-      // Save to localStorage
       localStorage.setItem('galleryImages', JSON.stringify(updatedImages));
       
       toast({
@@ -148,7 +140,6 @@ const AdminGallery = () => {
       return;
     }
     
-    // Reset form
     setNewImage(null);
     setPreview(null);
     setTitle('');
@@ -185,7 +176,6 @@ const AdminGallery = () => {
     });
   };
 
-  // Get unique categories for the filter dropdown
   const categories = ['Matrimoni', 'Aziendali', 'Compleanni', 'Gala', 'Altro'];
 
   return (
@@ -195,10 +185,16 @@ const AdminGallery = () => {
       <div className="container mx-auto px-6 py-20 flex-1">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-serif">Gestione Galleria</h1>
-          <Button variant="outline" onClick={handleLogout}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Esci
-          </Button>
+          <div className="flex space-x-2">
+            <Button variant="outline" onClick={() => navigate('/admin/bookings')}>
+              <FileText className="mr-2 h-4 w-4" />
+              Gestione Prenotazioni
+            </Button>
+            <Button variant="outline" onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Esci
+            </Button>
+          </div>
         </div>
         
         <div className="mb-8">
@@ -272,7 +268,6 @@ const AdminGallery = () => {
           </Dialog>
         </div>
         
-        {/* Gallery Management */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {images.map((image) => (
             <div key={image.id} className="border rounded-lg overflow-hidden shadow-sm">

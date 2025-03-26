@@ -74,27 +74,65 @@ export const sendBookingSMS = async (booking: Booking): Promise<boolean> => {
     // Format the message
     const message = `Nuova prenotazione: ${booking.name} - ${booking.eventType} - ${booking.date} - ${booking.time} - ${booking.guests} ospiti`;
     
-    // The API key that was provided
-    const apiKey = '3169233';
+    // Required parameters for CallMeBot
+    const apiKey = '3169233'; // The provided API key
+    const phoneNumber = '393489123812'; // Replace with the actual phone number (format: country code + number)
     
-    // Create the API URL for CallMeBot
+    // Create the API URL for CallMeBot (WhatsApp API)
+    // Format: https://api.callmebot.com/whatsapp.php?phone=[phone]&text=[message]&apikey=[apikey]
     const encodedMessage = encodeURIComponent(message);
-    const url = `https://api.callmebot.com/text.php?user=@YourPhone&text=${encodedMessage}&apikey=${apiKey}`;
+    const url = `https://api.callmebot.com/whatsapp.php?phone=${phoneNumber}&text=${encodedMessage}&apikey=${apiKey}`;
     
-    // Log the SMS being sent (for development/debugging)
-    console.log('Sending SMS notification:', message);
+    console.log('Sending SMS notification to CallMeBot API:', url);
     
     // Make the API request to CallMeBot
     const response = await fetch(url);
     
     if (!response.ok) {
-      console.error('Failed to send SMS:', await response.text());
+      const errorText = await response.text();
+      console.error('Failed to send SMS:', errorText);
       return false;
     }
     
+    const responseText = await response.text();
+    console.log('SMS API response:', responseText);
     return true;
   } catch (error) {
     console.error('Error sending SMS notification:', error);
+    return false;
+  }
+};
+
+// Test SMS functionality (for admin page)
+export const sendTestSMS = async (): Promise<boolean> => {
+  try {
+    // Test message
+    const message = "Questo è un messaggio di test dal sistema di prenotazione.";
+    
+    // Required parameters for CallMeBot
+    const apiKey = '3169233'; // The provided API key
+    const phoneNumber = '393489123812'; // Replace with the actual phone number (format: country code + number)
+    
+    // Create the API URL for CallMeBot (WhatsApp API)
+    const encodedMessage = encodeURIComponent(message);
+    const url = `https://api.callmebot.com/whatsapp.php?phone=${phoneNumber}&text=${encodedMessage}&apikey=${apiKey}`;
+    
+    console.log('Sending test SMS to CallMeBot API:', url);
+    
+    // Make the API request to CallMeBot
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Failed to send test SMS:', errorText);
+      return false;
+    }
+    
+    const responseText = await response.text();
+    console.log('Test SMS API response:', responseText);
+    return true;
+  } catch (error) {
+    console.error('Error sending test SMS:', error);
     return false;
   }
 };

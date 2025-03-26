@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
@@ -23,7 +22,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { getBookings, updateBookingStatus, deleteBooking, sendBookingSMS } from '@/utils/bookingUtils';
+import { getBookings, updateBookingStatus, deleteBooking, sendTestSMS } from '@/utils/bookingUtils';
 import { Booking } from '@/types/booking';
 import { toast } from 'sonner';
 import { MoreHorizontal, Mail, Trash, CheckCircle, XCircle, Clock, Image, LogOut } from 'lucide-react';
@@ -73,6 +72,31 @@ const AdminBookings = () => {
     toast.success('Prenotazione eliminata definitivamente');
   };
 
+  const handleSendTestSMS = async () => {
+    try {
+      toast.loading('Invio SMS di test in corso...');
+      const success = await sendTestSMS();
+      
+      if (success) {
+        toast.success('SMS di test inviato con successo');
+      } else {
+        toast.error('Errore nell\'invio dell\'SMS di test');
+      }
+    } catch (error) {
+      console.error('Error in handleSendTestSMS:', error);
+      toast.error('Errore nell\'invio dell\'SMS di test');
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAdminAuthenticated');
+    navigate('/admin');
+    
+    toast('Disconnessione Effettuata', {
+      description: 'Sei stato disconnesso dall\'area amministrativa.'
+    });
+  };
+
   const filteredBookings = bookings.filter(booking => {
     if (activeTab === 'all') return true;
     return booking.status === activeTab;
@@ -114,31 +138,6 @@ const AdminBookings = () => {
     }
   };
 
-  const sendTestSMS = async () => {
-    if (bookings.length === 0) {
-      toast.error('Nessuna prenotazione disponibile per testare l\'invio SMS');
-      return;
-    }
-
-    toast.promise(
-      new Promise(resolve => setTimeout(resolve, 2000)),
-      {
-        loading: 'Invio SMS di test in corso...',
-        success: 'SMS di test inviato con successo',
-        error: 'Errore nell\'invio dell\'SMS di test'
-      }
-    );
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('isAdminAuthenticated');
-    navigate('/admin');
-    
-    toast('Disconnessione Effettuata', {
-      description: 'Sei stato disconnesso dall\'area amministrativa.'
-    });
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -157,7 +156,7 @@ const AdminBookings = () => {
                 <Image className="mr-2 h-4 w-4" />
                 Gestione Galleria
               </Button>
-              <Button variant="outline" onClick={sendTestSMS}>
+              <Button variant="outline" onClick={handleSendTestSMS}>
                 <Mail className="mr-2 h-4 w-4" />
                 Testa SMS
               </Button>

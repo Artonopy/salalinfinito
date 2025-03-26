@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
@@ -133,8 +134,7 @@ const AdminBookings = () => {
     localStorage.removeItem('isAdminAuthenticated');
     navigate('/admin');
     
-    toast({
-      title: 'Disconnessione Effettuata',
+    toast('Disconnessione Effettuata', {
       description: 'Sei stato disconnesso dall\'area amministrativa.'
     });
   };

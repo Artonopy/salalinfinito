@@ -76,7 +76,7 @@ export const sendBookingSMS = async (booking: Booking): Promise<boolean> => {
     
     // Required parameters for CallMeBot
     const apiKey = '3169233'; // The provided API key
-    const phoneNumber = '393489123812'; // Replace with the actual phone number (format: country code + number)
+    const phoneNumber = '393295966969'; // Properly formatted number (country code + number, no + sign)
     
     // Create the API URL for CallMeBot (WhatsApp API)
     // Format: https://api.callmebot.com/whatsapp.php?phone=[phone]&text=[message]&apikey=[apikey]
@@ -111,7 +111,7 @@ export const sendTestSMS = async (): Promise<boolean> => {
     
     // Required parameters for CallMeBot
     const apiKey = '3169233'; // The provided API key
-    const phoneNumber = '393489123812'; // Replace with the actual phone number (format: country code + number)
+    const phoneNumber = '393295966969'; // Properly formatted number (country code + number, no + sign)
     
     // Create the API URL for CallMeBot (WhatsApp API)
     const encodedMessage = encodeURIComponent(message);

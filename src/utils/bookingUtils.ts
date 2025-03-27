@@ -68,37 +68,74 @@ export const checkBookingConflict = (date: string, time: string): boolean => {
   }
 };
 
+// Translate event type from English to Italian
+const translateEventType = (eventType: string): string => {
+  const translations: Record<string, string> = {
+    'wedding': 'Matrimonio',
+    'corporate': 'Evento Aziendale',
+    'birthday': 'Festa di Compleanno',
+    'anniversary': 'Anniversario',
+    'graduation': 'Laurea',
+    'other': 'Altro'
+  };
+  
+  return translations[eventType] || eventType;
+};
+
+// Translate time slot from English to Italian
+const translateTimeSlot = (timeSlot: string): string => {
+  const translations: Record<string, string> = {
+    'morning': 'Mattina (9:00 - 12:00)',
+    'afternoon': 'Pomeriggio (13:00 - 17:00)',
+    'evening': 'Sera (18:00 - 22:00)',
+    'night': 'Notte (19:00 - 24:00)'
+  };
+  
+  return translations[timeSlot] || timeSlot;
+};
+
 // Send booking notification via SMS using CallMeBot API
 export const sendBookingSMS = async (booking: Booking): Promise<boolean> => {
   try {
-    // Format the message
-    const message = `Nuova prenotazione: ${booking.name} - ${booking.eventType} - ${booking.date} - ${booking.time} - ${booking.guests} ospiti`;
+    // Format the message with all booking details in Italian
+    const message = `
+Nuova prenotazione! Dettagli:
+- Nome: ${booking.name}
+- Tipo di evento: ${translateEventType(booking.eventType)}
+- Data: ${booking.date}
+- Orario: ${translateTimeSlot(booking.time)}
+- Numero di ospiti: ${booking.guests}
+- Telefono: ${booking.phone}
+${booking.email ? `- Email: ${booking.email}` : ''}
+${booking.message ? `- Messaggio: ${booking.message}` : ''}
+- ID prenotazione: ${booking.id}
+- Stato: ${booking.status === 'pending' ? 'In attesa' : booking.status === 'confirmed' ? 'Confermato' : 'Cancellato'}
+`;
     
     // Required parameters for CallMeBot
-    const apiKey = '3169233'; // The provided API key
-    const phoneNumber = '393295966969'; // Properly formatted number (country code + number, no + sign)
+    const apiKey = '3169233';
+    const phoneNumber = '393295966969';
     
     // Create the API URL for CallMeBot (WhatsApp API)
-    // Format: https://api.callmebot.com/whatsapp.php?phone=[phone]&text=[message]&apikey=[apikey]
     const encodedMessage = encodeURIComponent(message);
     const url = `https://api.callmebot.com/whatsapp.php?phone=${phoneNumber}&text=${encodedMessage}&apikey=${apiKey}`;
     
-    console.log('Sending SMS notification to CallMeBot API:', url);
+    console.log('Invio notifica SMS tramite CallMeBot API:', url);
     
     // Make the API request to CallMeBot
     const response = await fetch(url);
     
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Failed to send SMS:', errorText);
+      console.error('Invio SMS fallito:', errorText);
       return false;
     }
     
     const responseText = await response.text();
-    console.log('SMS API response:', responseText);
+    console.log('Risposta API SMS:', responseText);
     return true;
   } catch (error) {
-    console.error('Error sending SMS notification:', error);
+    console.error('Errore nell\'invio della notifica SMS:', error);
     return false;
   }
 };
@@ -106,33 +143,33 @@ export const sendBookingSMS = async (booking: Booking): Promise<boolean> => {
 // Test SMS functionality (for admin page)
 export const sendTestSMS = async (): Promise<boolean> => {
   try {
-    // Test message
+    // Test message in Italian
     const message = "Questo è un messaggio di test dal sistema di prenotazione.";
     
     // Required parameters for CallMeBot
-    const apiKey = '3169233'; // The provided API key
-    const phoneNumber = '393295966969'; // Properly formatted number (country code + number, no + sign)
+    const apiKey = '3169233';
+    const phoneNumber = '393295966969';
     
     // Create the API URL for CallMeBot (WhatsApp API)
     const encodedMessage = encodeURIComponent(message);
     const url = `https://api.callmebot.com/whatsapp.php?phone=${phoneNumber}&text=${encodedMessage}&apikey=${apiKey}`;
     
-    console.log('Sending test SMS to CallMeBot API:', url);
+    console.log('Invio test SMS tramite CallMeBot API:', url);
     
     // Make the API request to CallMeBot
     const response = await fetch(url);
     
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Failed to send test SMS:', errorText);
+      console.error('Invio test SMS fallito:', errorText);
       return false;
     }
     
     const responseText = await response.text();
-    console.log('Test SMS API response:', responseText);
+    console.log('Risposta API test SMS:', responseText);
     return true;
   } catch (error) {
-    console.error('Error sending test SMS:', error);
+    console.error('Errore nell\'invio del test SMS:', error);
     return false;
   }
 };

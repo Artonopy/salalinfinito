@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Facebook, TikTok } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -98,7 +98,7 @@ const Footer = () => {
             </ul>
           </div>
           
-          {/* Newsletter */}
+          {/* Social Media */}
           <div>
             <h3 className="font-serif text-xl text-white mb-6">Seguici</h3>
             <p className="mb-6">
@@ -106,13 +106,13 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a 
-                href="https://instagram.com" 
+                href="https://www.tiktok.com/@sala.l.infinito" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-infinito-800/50 flex items-center justify-center hover:bg-infinito-700 transition-colors"
-                aria-label="Instagram"
+                aria-label="TikTok"
               >
-                <Instagram size={20} />
+                <TikTok size={20} />
               </a>
               <a 
                 href="https://www.facebook.com/p/Linfinito-100063610494417/" 
@@ -122,15 +122,6 @@ const Footer = () => {
                 aria-label="Facebook"
               >
                 <Facebook size={20} />
-              </a>
-              <a 
-                href="https://twitter.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-infinito-800/50 flex items-center justify-center hover:bg-infinito-700 transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter size={20} />
               </a>
             </div>
           </div>

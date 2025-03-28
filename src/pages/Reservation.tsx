@@ -10,8 +10,6 @@ const ReservationPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  <script src="https://widget.trustmary.com/tL1CGHy3S"></script>
-
   // Contact info details
   const contactInfo = [
     {

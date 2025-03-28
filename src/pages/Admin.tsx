@@ -25,7 +25,7 @@ const Admin = () => {
     
     // Simple authentication for demo purposes
     // In a real app, you would use a proper authentication system
-    if (username === 'admin' && password === 'infinito123') {
+    if (username === 'antlau1977' && password === 'inf691001') {
       // Store authentication state
       localStorage.setItem('isAdminAuthenticated', 'true');
       

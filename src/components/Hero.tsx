@@ -19,7 +19,7 @@ const Hero = () => {
   return <div className="relative h-screen overflow-hidden">
       {/* Background Image */}
       <div ref={heroRef} className="absolute inset-0 -z-10 bg-infinito-500" style={{
-      backgroundImage: 'url(raw.githubusercontent.com/Artonopy/salalinfinito/refs/heads/main/images/12.jpg)',
+      backgroundImage: 'url(https://raw.githubusercontent.com/Artonopy/salalinfinito/refs/heads/main/images/12.jpg)',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       height: '120%',

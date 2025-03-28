@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -7,35 +8,24 @@ import { Phone, Mail, Clock } from 'lucide-react';
 const ReservationPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    // Add Trustmary widget script
-    const script = document.createElement('script');
-    script.src = 'https://widget.trustmary.com/tL1CGHy3S';
-    script.async = true;
-    document.body.appendChild(script);
-    
-    return () => {
-      // Clean up script when component unmounts
-      document.body.removeChild(script);
-    };
   }, []);
 
   // Contact info details
   const contactInfo = [
     {
-      icon: <Phone className="h-6 w-6 text-infinito-700" />, 
-      title: "Telefono", 
+      icon: <Phone className="h-6 w-6 text-infinito-700" />,
+      title: "Telefono",
       content: "+39 329 596 6969",
     },
     {
-      icon: <Mail className="h-6 w-6 text-infinito-700" />, 
-      title: "Email", 
+      icon: <Mail className="h-6 w-6 text-infinito-700" />,
+      title: "Email",
       content: "@linfinito.com",
       description: "Rispondiamo alle richieste solitamente entro 24 ore."
     },
     {
-      icon: <Clock className="h-6 w-6 text-infinito-700" />, 
-      title: "Disponibilità", 
+      icon: <Clock className="h-6 w-6 text-infinito-700" />,
+      title: "Disponibilità",
       content: "7 Giorni su 7",
       description: "La location è disponibile per eventi durante tutto l'anno."
     }
@@ -80,6 +70,18 @@ const ReservationPage = () => {
                   </div>
                 ))}
               </div>
+              
+              <div className="mt-12 p-6 bg-infinito-100 rounded-xl animate-fade-in-up animate-delay-300">
+                <h3 className="text-lg font-medium mb-4">Dettagli della Location</h3>
+                <ul className="space-y-2 text-infinito-700">
+                  <li>• Capacità: Fino a 300 ospiti</li>
+                  <li>• Diversi spazi disponibili</li>
+                  <li>• Servizi completi di catering</li>
+                  <li>• Attrezzature audiovisive</li>
+                  <li>• Ampio parcheggio</li>
+                  <li>• Accessibile per sedie a rotelle</li>
+                </ul>
+              </div>
             </div>
             
             {/* Reservation Form */}
@@ -90,18 +92,30 @@ const ReservationPage = () => {
         </div>
       </section>
       
-      {/* Review Section - Trustmary Widget Moved Here */}
-      <section className="py-16 px-6 bg-infinito-50">
+      {/* Map Section */}
+      <section className="py-16 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-10 animate-fade-in-up">
-            <h2 className="text-3xl font-serif mb-4">Ecco cosa dicono i nostri clienti</h2>
+            <h2 className="text-3xl font-serif mb-4">La Nostra Posizione</h2>
             <p className="text-infinito-700 max-w-2xl mx-auto">
-              Leggi le recensioni dei nostri clienti e scopri perché scelgono L'Infinito per i loro eventi speciali.
+              L'infinito è situato nel cuore di Milano, facilmente raggiungibile con i mezzi pubblici e con ampio parcheggio.
             </p>
           </div>
           
-          {/* Trustmary widget injected here */}
-          <div id="trustmary-widget" className="mx-auto animate-fade-in-up mb-12"></div>
+          <div className="mx-auto animate-fade-in-up">
+            <div style={{overflow:"hidden", maxWidth:"100%", width:"700px", height:"500px"}} className="mx-auto rounded-xl shadow-md">
+              <div id="google-maps-display" style={{height:"100%", width:"100%", maxWidth:"100%"}}>
+                <iframe 
+                  style={{height:"100%", width:"100%", border:"0"}} 
+                  frameBorder="0" 
+                  src="https://www.google.com/maps/embed/v1/place?q=sala+l+infinito+senise&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+                  allowFullScreen
+                  title="L'infinito Location"
+                ></iframe>
+              </div>
+              <style>{`#google-maps-display img.text-marker{max-width:none!important;background:none!important;}img{max-width:none}`}</style>
+            </div>
+          </div>
         </div>
       </section>
       

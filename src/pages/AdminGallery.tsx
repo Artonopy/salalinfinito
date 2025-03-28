@@ -94,7 +94,7 @@ const AdminGallery = () => {
       toast({
         variant: 'destructive',
         title: 'Errore',
-        description: 'Per favore seleziona almeno un'immagine.'
+        description: 'Per favore seleziona almeno un\'immagine.'
       });
       return;
     }

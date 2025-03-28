@@ -8,6 +8,17 @@ import { Phone, Mail, Clock } from 'lucide-react';
 const ReservationPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
+    
+    // Add Trustmary widget script
+    const script = document.createElement('script');
+    script.src = 'https://widget.trustmary.com/tL1CGHy3S';
+    script.async = true;
+    document.body.appendChild(script);
+    
+    return () => {
+      // Clean up script when component unmounts
+      document.body.removeChild(script);
+    };
   }, []);
 
   // Contact info details
@@ -115,6 +126,23 @@ const ReservationPage = () => {
               </div>
               <style>{`#google-maps-display img.text-marker{max-width:none!important;background:none!important;}img{max-width:none}`}</style>
             </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Review Section */}
+      <section className="py-16 px-6 bg-infinito-50">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-10 animate-fade-in-up">
+            <h2 className="text-3xl font-serif mb-4">La Tua Opinione</h2>
+            <p className="text-infinito-700 max-w-2xl mx-auto">
+              Sei soddisfatto del nostro servizio? Lascia una recensione e aiutaci a migliorare!
+            </p>
+          </div>
+          
+          <div className="mx-auto animate-fade-in-up">
+            {/* Trustmary widget will be injected here */}
+            <div id="trustmary-widget" className="mx-auto"></div>
           </div>
         </div>
       </section>

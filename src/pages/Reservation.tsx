@@ -140,17 +140,15 @@ const ReservationPage = () => {
             </p>
           </div>
           
-          <div className="mx-auto animate-fade-in-up">
-            {/* Testimonials section moved directly under La Tua Opinione */}
-            <div className="mb-12">
-              <h3 className="text-2xl font-serif text-center mb-8">Ecco cosa dicono i nostri clienti</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Testimonial cards would go here */}
-              </div>
+          {/* Trustmary widget will be injected here - moved directly under La Tua Opinione */}
+          <div id="trustmary-widget" className="mx-auto animate-fade-in-up mb-12"></div>
+          
+          {/* Testimonials section */}
+          <div className="animate-fade-in-up">
+            <h3 className="text-2xl font-serif text-center mb-8">Ecco cosa dicono i nostri clienti</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Testimonial cards would go here */}
             </div>
-            
-            {/* Trustmary widget will be injected here */}
-            <div id="trustmary-widget" className="mx-auto"></div>
           </div>
         </div>
       </section>

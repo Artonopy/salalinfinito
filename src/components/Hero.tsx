@@ -19,7 +19,7 @@ const Hero = () => {
   return <div className="relative h-screen overflow-hidden">
       {/* Background Image */}
       <div ref={heroRef} className="absolute inset-0 -z-10 bg-infinito-500" style={{
-      backgroundImage: <img src="/images/22.png" alt="Sfondo" />
+      backgroundImage: 'url(https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=2968)',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       height: '120%',

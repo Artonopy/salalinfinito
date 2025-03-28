@@ -7,23 +7,10 @@ import TikTokIcon from './icons/TikTokIcon';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
-  // Add Trustmary widget script when component mounts
-  React.useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://widget.trustmary.com/tL1CGHy3S';
-    script.async = true;
-    document.body.appendChild(script);
-    
-    return () => {
-      // Clean up script when component unmounts
-      document.body.removeChild(script);
-    };
-  }, []);
-  
   return (
     <footer className="bg-infinito-950 text-white/80 pt-16 pb-8">
       <div className="container px-6 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
           {/* Contact Information */}
           <div>
             <h3 className="font-serif text-2xl text-white mb-6">L'infinito</h3>
@@ -101,6 +88,7 @@ const Footer = () => {
                   Chi Siamo
                 </a>
               </li>
+              {/* Removed Admin link */}
             </ul>
           </div>
           
@@ -129,17 +117,6 @@ const Footer = () => {
               >
                 <Facebook size={20} />
               </a>
-            </div>
-          </div>
-          
-          {/* Reviews Section - NEW */}
-          <div>
-            <h3 className="font-serif text-xl text-white mb-6">La Tua Opinione</h3>
-            <p className="mb-6">
-              Soddisfatto del nostro servizio? Ci aiuterebbe molto se potessi lasciare una recensione.
-            </p>
-            <div id="trustmary-widget" className="mt-4">
-              {/* The Trustmary widget will be loaded here */}
             </div>
           </div>
         </div>

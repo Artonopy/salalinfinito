@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -33,7 +34,6 @@ import {
 import { toast } from "sonner";
 import { checkBookingConflict, saveBooking, sendBookingSMS } from "@/utils/bookingUtils";
 import { Booking } from "@/types/booking";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -63,7 +63,6 @@ type FormValues = z.infer<typeof formSchema>;
 const ReservationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [showSmsWarning, setShowSmsWarning] = useState(false);
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -75,9 +74,8 @@ const ReservationForm = () => {
     },
   });
 
-  async function onSubmit(data: FormValues) {
+  function onSubmit(data: FormValues) {
     setIsSubmitting(true);
-    setShowSmsWarning(false);
     
     // Convert date to ISO string format
     const dateString = data.date.toISOString().split('T')[0];
@@ -109,38 +107,25 @@ const ReservationForm = () => {
     // Save booking to localStorage
     saveBooking(newBooking);
     
-    try {
-      // Send SMS notification
-      const smsSent = await sendBookingSMS(newBooking);
-      
-      if (!smsSent) {
-        console.log("SMS notification failed but booking was saved");
-        setShowSmsWarning(true);
-      }
-      
-      // Update UI - always mark as success since booking is saved
+    // Send SMS notification instead of email
+    sendBookingSMS(newBooking)
+      .then(success => {
+        if (!success) {
+          toast.warning("La prenotazione è stata salvata, ma potrebbe esserci stato un problema con l'invio dell'SMS di notifica.");
+        }
+      });
+    
+    // Update UI
+    setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
       toast.success("Richiesta di prenotazione inviata con successo!");
-      
       // Reset form after a delay
       setTimeout(() => {
         form.reset();
-        // Keep the success state and SMS warning if needed
-        if (!smsSent) {
-          setIsSuccess(false);
-          toast.warning("La prenotazione è stata salvata, ma c'è stato un problema con l'invio dell'SMS di notifica.");
-        } else {
-          setIsSuccess(false);
-          setShowSmsWarning(false);
-        }
+        setIsSuccess(false);
       }, 3000);
-    } catch (error) {
-      console.error("Error in form submission:", error);
-      setIsSubmitting(false);
-      setShowSmsWarning(true);
-      toast.error("Si è verificato un errore, ma la prenotazione è stata salvata.");
-    }
+    }, 1500);
   }
 
   return (
@@ -154,19 +139,9 @@ const ReservationForm = () => {
           <p className="text-infinito-700 mb-6">
             La tua richiesta di prenotazione è stata inviata con successo. Ti contatteremo a breve per confermare i dettagli.
           </p>
-          {showSmsWarning && (
-            <Alert className="mb-6 bg-amber-50 border-amber-200 text-amber-800">
-              <AlertDescription>
-                Nota: La prenotazione è stata salvata, ma potrebbe esserci stato un problema con l'invio dell'SMS di notifica. Verrai comunque contattato al più presto.
-              </AlertDescription>
-            </Alert>
-          )}
           <Button 
             variant="outline" 
-            onClick={() => {
-              setIsSuccess(false);
-              setShowSmsWarning(false);
-            }}
+            onClick={() => setIsSuccess(false)}
           >
             Effettua Un'Altra Prenotazione
           </Button>

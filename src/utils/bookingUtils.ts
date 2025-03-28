@@ -122,28 +122,18 @@ ${booking.message ? `- Messaggio: ${booking.message}` : ''}
     
     console.log('Invio notifica SMS tramite CallMeBot API:', url);
     
-    try {
-      // Make the API request to CallMeBot with a timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-      
-      const response = await fetch(url, { signal: controller.signal });
-      clearTimeout(timeoutId);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Invio SMS fallito:', errorText);
-        return false;
-      }
-      
-      const responseText = await response.text();
-      console.log('Risposta API SMS:', responseText);
-      return true;
-    } catch (fetchError) {
-      console.error('Errore nella richiesta API:', fetchError);
-      // If the error is a timeout or network error, consider the booking saved but SMS failed
+    // Make the API request to CallMeBot
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Invio SMS fallito:', errorText);
       return false;
     }
+    
+    const responseText = await response.text();
+    console.log('Risposta API SMS:', responseText);
+    return true;
   } catch (error) {
     console.error('Errore nell\'invio della notifica SMS:', error);
     return false;
@@ -166,27 +156,18 @@ export const sendTestSMS = async (): Promise<boolean> => {
     
     console.log('Invio test SMS tramite CallMeBot API:', url);
     
-    try {
-      // Make the API request to CallMeBot with a timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-      
-      const response = await fetch(url, { signal: controller.signal });
-      clearTimeout(timeoutId);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Invio test SMS fallito:', errorText);
-        return false;
-      }
-      
-      const responseText = await response.text();
-      console.log('Risposta API test SMS:', responseText);
-      return true;
-    } catch (fetchError) {
-      console.error('Errore nella richiesta API:', fetchError);
+    // Make the API request to CallMeBot
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Invio test SMS fallito:', errorText);
       return false;
     }
+    
+    const responseText = await response.text();
+    console.log('Risposta API test SMS:', responseText);
+    return true;
   } catch (error) {
     console.error('Errore nell\'invio del test SMS:', error);
     return false;

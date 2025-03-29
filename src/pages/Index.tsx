@@ -30,7 +30,7 @@ const Index = () => {
   const galleryPreview = [
     {
       id: 1,
-      src: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      src: "https://scontent.fnap4-1.fna.fbcdn.net/v/t39.30808-6/483887796_1176989114431427_8392732447477146151_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=1-1igSg1AuEQ7kNvgHYfKZu&_nc_oc=AdnVyV5HkoVbbN57sDcevCVugsTIAn3rxfb2XXeHmIzlYV9485bYDwjMBGAenZAI_sU&_nc_zt=23&_nc_ht=scontent.fnap4-1.fna&_nc_gid=fYWAsVnwcBUuzxpHKtD93g&oh=00_AYF8LvXS5DPAxnljF1SyRxQj0Q1-ThAI1ZAXeOOwQp9NsQ&oe=67ED64E3",
       alt: "Elegante ricevimento di nozze con lampadari"
     },
     {

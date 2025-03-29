@@ -55,18 +55,18 @@ const AdminGallery = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      setNewImages(filesArray);
+      const files = Array.from(e.target.files);
+      setNewImages(files);
       
-      const previewsArray = filesArray.map(file => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
+      const fileReaders = files.map(file => {
         return new Promise<string>((resolve) => {
+          const reader = new FileReader();
           reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
         });
       });
       
-      Promise.all(previewsArray).then(setPreviews);
+      Promise.all(fileReaders).then(setPreviews);
     }
   };
 
@@ -82,21 +82,23 @@ const AdminGallery = () => {
       
       setImages(updatedImages);
       localStorage.setItem('galleryImages', JSON.stringify(updatedImages));
+      
       toast({
         title: 'Immagine Aggiornata',
-        description: 'L'immagine è stata aggiornata con successo.'
+        description: 'L\'immagine è stata aggiornata con successo.'
       });
-    } else if (newImages.length > 0 && previews.length > 0) {
-      const newIdStart = images.length > 0 ? Math.max(...images.map(img => img.id)) + 1 : 1;
+    } else if (newImages.length > 0) {
+      const newImageObjs = newImages.map((file, index) => {
+        const newId = images.length > 0 ? Math.max(...images.map(img => img.id)) + 1 + index : 1 + index;
+        return {
+          id: newId,
+          src: previews[index],
+          alt: title || 'Senza descrizione',
+          category: category || 'Altro'
+        };
+      });
       
-      const newImageObjects = newImages.map((file, index) => ({
-        id: newIdStart + index,
-        src: previews[index],
-        alt: title || 'Senza descrizione',
-        category: category || 'Altro'
-      }));
-      
-      const updatedImages = [...images, ...newImageObjects];
+      const updatedImages = [...images, ...newImageObjs];
       setImages(updatedImages);
       localStorage.setItem('galleryImages', JSON.stringify(updatedImages));
       
@@ -108,7 +110,7 @@ const AdminGallery = () => {
       toast({
         variant: 'destructive',
         title: 'Errore',
-        description: 'Seleziona almeno un'immagine.'
+        description: 'Per favore seleziona almeno un\'immagine.'
       });
       return;
     }
@@ -127,9 +129,9 @@ const AdminGallery = () => {
       <div className="container mx-auto px-6 py-20 flex-1">
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button className="bg-infinito-900 hover:bg-infinito-800 text-white">
               <PlusCircle className="mr-2 h-4 w-4" />
-              Aggiungi Immagini
+              Aggiungi Immagine
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -139,37 +141,31 @@ const AdminGallery = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               {editingId === null && (
                 <div className="space-y-2">
-                  <Label>Immagini</Label>
-                  <Input type="file" accept="image/*" multiple onChange={handleImageChange} />
+                  <Label htmlFor="image-upload">Immagini</Label>
+                  <Input id="image-upload" type="file" accept="image/*" multiple onChange={handleImageChange} />
                   {previews.length > 0 && (
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-3 gap-2">
                       {previews.map((src, index) => (
-                        <img key={index} src={src} alt="Preview" className="w-full h-32 object-cover rounded" />
+                        <img key={index} src={src} alt="Preview" className="w-full h-24 object-cover rounded" />
                       ))}
                     </div>
                   )}
                 </div>
               )}
-              <div className="space-y-2">
-                <Label>Descrizione (Opzionale)</Label>
-                <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Descrizione dell'immagine" />
-              </div>
-              <div className="space-y-2">
-                <Label>Categoria</Label>
-                <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleziona una categoria" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {['Matrimoni', 'Aziendali', 'Compleanni', 'Gala', 'Altro'].map((cat) => (
-                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex justify-end pt-4">
-                <Button type="submit">{editingId !== null ? 'Aggiorna' : 'Carica'}</Button>
-              </div>
+              <Label htmlFor="image-title">Descrizione (Opzionale)</Label>
+              <Input id="image-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Descrizione dell'immagine" />
+              <Label htmlFor="image-category">Categoria</Label>
+              <Select value={category} onValueChange={setCategory}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleziona una categoria" />
+                </SelectTrigger>
+                <SelectContent>
+                  {["Matrimoni", "Aziendali", "Compleanni", "Gala", "Altro"].map((cat) => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button type="submit">{editingId !== null ? 'Aggiorna' : 'Carica'}</Button>
             </form>
           </DialogContent>
         </Dialog>
@@ -178,4 +174,5 @@ const AdminGallery = () => {
     </div>
   );
 };
+
 export default AdminGallery;

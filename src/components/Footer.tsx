@@ -73,20 +73,20 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link 
-                  to="/#services" 
+                <a 
+                  href="#services" 
                   className="hover:text-white transition-colors hover:pl-1 inline-block duration-200"
                 >
                   Servizi
-                </Link>
+                </a>
               </li>
               <li>
-                <Link 
-                  to="/#about" 
+                <a 
+                  href="#about" 
                   className="hover:text-white transition-colors hover:pl-1 inline-block duration-200"
                 >
                   Chi Siamo
-                </Link>
+                </a>
               </li>
               {/* Removed Admin link */}
             </ul>

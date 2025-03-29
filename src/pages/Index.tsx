@@ -35,12 +35,12 @@ const Index = () => {
     },
     {
       id: 2,
-      src: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      src: "https://scontent.fnap4-1.fna.fbcdn.net/v/t39.30808-6/480089001_1175293587934313_5674664661415211468_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=Xd1Zz6ftMRUQ7kNvgGja99L&_nc_oc=AdmTM3iI-jaY0JA1zLntQDbGTJXdyH_89bs9YY5yD66GfkiMPmSCpdMI7LY1mhw8DLI&_nc_zt=23&_nc_ht=scontent.fnap4-1.fna&_nc_gid=OV46MzdL_iFrVVDtoAJ8Kw&oh=00_AYGKjwrnj_8iElzTlB4h8qIJByoyum2vs8JWYgePlpVEtw&oe=67ED8EF9",
       alt: "Allestimento per conferenza aziendale con arredamento modern"
     },
     {
       id: 3,
-      src: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      src: "https://scontent.fnap4-1.fna.fbcdn.net/v/t39.30808-6/481295804_1165790878884584_4085292255983119853_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=st1JM-TNW7YQ7kNvgFdb6vI&_nc_oc=AdlGMCm7xGVE2xohBMmmEa3-NhimYorcUJFkilCMa32zKVf10EcA0xDzxLtc7_Wlaug&_nc_zt=23&_nc_ht=scontent.fnap4-1.fna&_nc_gid=XS9xd7LFMdUH9a4HlcuMgg&oh=00_AYElspNwcWgN1pV7_11a-QQbWGCBE8MjEtmp2Y699U2FZA&oe=67ED6449",
       alt: "Celebrazione di compleanno con illuminazione decorativa"
     }
   ];
@@ -72,7 +72,7 @@ const Index = () => {
             <div className="relative animate-fade-in-up">
               <div className="aspect-[4/5] rounded-2xl overflow-hidden image-reveal">
                 <img 
-                  src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                  src="https://scontent.fnap4-1.fna.fbcdn.net/v/t39.30808-6/480089001_1175293587934313_5674664661415211468_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=Xd1Zz6ftMRUQ7kNvgGja99L&_nc_oc=AdmTM3iI-jaY0JA1zLntQDbGTJXdyH_89bs9YY5yD66GfkiMPmSCpdMI7LY1mhw8DLI&_nc_zt=23&_nc_ht=scontent.fnap4-1.fna&_nc_gid=7eOputo_ffIiDQqodAzfPA&oh=00_AYE3W-I0ahaMn225nOt12mTaHDOmzav8I-Z3p6dhd0uuNA&oe=67ED8EF9" 
                   alt="Salone principale de L'infinito" 
                   className="w-full h-full object-cover"
                 />

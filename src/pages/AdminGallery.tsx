@@ -19,14 +19,14 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
-import { PlusCircle, Trash2, LogOut, Edit, FileText } from 'lucide-react';
+import { PlusCircle, Trash2, LogOut, Edit, Image as ImageIcon, FileText } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 interface GalleryImage {
   id: number;
   src: string;
-  alt?: string;
+  alt: string;
   category: string;
 }
 
@@ -55,10 +55,10 @@ const AdminGallery = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const files = Array.from(e.target.files);
-      setNewImages(files);
+      const filesArray = Array.from(e.target.files);
+      setNewImages(filesArray);
       
-      const previewsArray = files.map(file => {
+      const previewsArray = filesArray.map(file => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         return new Promise<string>((resolve) => {
@@ -82,26 +82,24 @@ const AdminGallery = () => {
       
       setImages(updatedImages);
       localStorage.setItem('galleryImages', JSON.stringify(updatedImages));
-      
       toast({
         title: 'Immagine Aggiornata',
         description: 'L'immagine è stata aggiornata con successo.'
       });
     } else if (newImages.length > 0 && previews.length > 0) {
-      const newImagesArray = newImages.map((file, index) => {
-        const newId = images.length > 0 ? Math.max(...images.map(img => img.id)) + index + 1 : index + 1;
-        return {
-          id: newId,
-          src: previews[index],
-          alt: title || '',
-          category: category || 'Altro'
-        };
-      });
-
-      const updatedImages = [...images, ...newImagesArray];
+      const newIdStart = images.length > 0 ? Math.max(...images.map(img => img.id)) + 1 : 1;
+      
+      const newImageObjects = newImages.map((file, index) => ({
+        id: newIdStart + index,
+        src: previews[index],
+        alt: title || 'Senza descrizione',
+        category: category || 'Altro'
+      }));
+      
+      const updatedImages = [...images, ...newImageObjects];
       setImages(updatedImages);
       localStorage.setItem('galleryImages', JSON.stringify(updatedImages));
-
+      
       toast({
         title: 'Immagini Caricate',
         description: 'Le immagini sono state aggiunte alla galleria.'
@@ -110,11 +108,11 @@ const AdminGallery = () => {
       toast({
         variant: 'destructive',
         title: 'Errore',
-        description: 'Per favore seleziona almeno un'immagine.'
+        description: 'Seleziona almeno un'immagine.'
       });
       return;
     }
-
+    
     setNewImages([]);
     setPreviews([]);
     setTitle('');
@@ -127,68 +125,57 @@ const AdminGallery = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <div className="container mx-auto px-6 py-20 flex-1">
-        <div className="mb-8">
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-infinito-900 hover:bg-infinito-800 text-white">
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Aggiungi Immagini
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Aggiungi Nuove Immagini</DialogTitle>
-                <DialogDescription>Carica più immagini contemporaneamente.</DialogDescription>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogTrigger asChild>
+            <Button>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Aggiungi Immagini
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{editingId !== null ? 'Modifica Immagine' : 'Aggiungi Nuove Immagini'}</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {editingId === null && (
                 <div className="space-y-2">
-                  <Label htmlFor="image-upload">Immagini</Label>
-                  <Input 
-                    id="image-upload" 
-                    type="file" 
-                    accept="image/*" 
-                    multiple
-                    onChange={handleImageChange}
-                  />
-                  <div className="grid grid-cols-3 gap-2">
-                    {previews.map((src, index) => (
-                      <img key={index} src={src} alt="Preview" className="w-full h-auto object-cover rounded-md" />
-                    ))}
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="image-title">Descrizione (opzionale)</Label>
-                  <Input 
-                    id="image-title" 
-                    value={title} 
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Descrizione dell'immagine"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="image-category">Categoria</Label>
-                  <Select value={category} onValueChange={setCategory}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleziona una categoria" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {['Matrimoni', 'Aziendali', 'Compleanni', 'Gala', 'Altro'].map((cat) => (
-                        <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  <Label>Immagini</Label>
+                  <Input type="file" accept="image/*" multiple onChange={handleImageChange} />
+                  {previews.length > 0 && (
+                    <div className="grid grid-cols-2 gap-2">
+                      {previews.map((src, index) => (
+                        <img key={index} src={src} alt="Preview" className="w-full h-32 object-cover rounded" />
                       ))}
-                    </SelectContent>
-                  </Select>
+                    </div>
+                  )}
                 </div>
-                <div className="flex justify-end pt-4">
-                  <Button type="submit">Carica</Button>
-                </div>
-              </form>
-            </DialogContent>
-          </Dialog>
-        </div>
+              )}
+              <div className="space-y-2">
+                <Label>Descrizione (Opzionale)</Label>
+                <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Descrizione dell'immagine" />
+              </div>
+              <div className="space-y-2">
+                <Label>Categoria</Label>
+                <Select value={category} onValueChange={setCategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleziona una categoria" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {['Matrimoni', 'Aziendali', 'Compleanni', 'Gala', 'Altro'].map((cat) => (
+                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex justify-end pt-4">
+                <Button type="submit">{editingId !== null ? 'Aggiorna' : 'Carica'}</Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
       <Footer />
     </div>
   );
 };
-
 export default AdminGallery;

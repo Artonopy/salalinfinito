@@ -1,6 +1,7 @@
 
-// This is a mock service that would typically connect to a backend
-// In a real implementation, this would make API calls to your server
+// This service connects to a simulated backend for image storage
+// In a real implementation with a GitHub-hosted site, you would use services 
+// like Cloudinary, Firebase Storage, or Supabase Storage
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,7 +12,7 @@ export interface GalleryImage {
   category: string;
 }
 
-// Initialize with default images if the server storage is empty
+// Initialize with default images if the storage is empty
 const initializeDefaultImages = (): GalleryImage[] => {
   return [
     {
@@ -41,78 +42,110 @@ const initializeDefaultImages = (): GalleryImage[] => {
   ];
 };
 
-// In a real application, this would be stored in a database
-// For this demo, we'll use sessionStorage to simulate server storage
-const STORAGE_KEY = 'server_gallery_images';
+// Using localStorage instead of sessionStorage for persistence across browser sessions
+// For a GitHub-hosted site, localStorage is the most persistent client-side option
+const STORAGE_KEY = 'gallery_images';
 
 // Get all images
 export const getAllImages = async (): Promise<GalleryImage[]> => {
-  const storedImages = sessionStorage.getItem(STORAGE_KEY);
-  if (storedImages) {
-    return JSON.parse(storedImages);
-  } 
-  
-  // If there are no images in "server" storage, initialize with defaults
-  const defaultImages = initializeDefaultImages();
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(defaultImages));
-  return defaultImages;
+  try {
+    const storedImages = localStorage.getItem(STORAGE_KEY);
+    if (storedImages) {
+      return JSON.parse(storedImages);
+    } 
+    
+    // If there are no images in storage, initialize with defaults
+    const defaultImages = initializeDefaultImages();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultImages));
+    return defaultImages;
+  } catch (error) {
+    console.error('Error fetching gallery images:', error);
+    return initializeDefaultImages();
+  }
 };
 
 // Add a new image
 export const addImage = async (image: Omit<GalleryImage, 'id'>): Promise<GalleryImage> => {
-  const images = await getAllImages();
-  
-  const newId = images.length > 0 ? Math.max(...images.map(img => img.id)) + 1 : 1;
-  const newImage = { ...image, id: newId };
-  
-  const updatedImages = [...images, newImage];
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(updatedImages));
-  
-  return newImage;
+  try {
+    const images = await getAllImages();
+    
+    const newId = images.length > 0 ? Math.max(...images.map(img => img.id)) + 1 : 1;
+    const newImage = { ...image, id: newId };
+    
+    const updatedImages = [...images, newImage];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedImages));
+    
+    return newImage;
+  } catch (error) {
+    console.error('Error adding image:', error);
+    throw new Error('Failed to add image');
+  }
 };
 
 // Update an existing image
 export const updateImage = async (id: number, updates: Partial<GalleryImage>): Promise<GalleryImage | null> => {
-  const images = await getAllImages();
-  const index = images.findIndex(img => img.id === id);
-  
-  if (index === -1) return null;
-  
-  images[index] = { ...images[index], ...updates };
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(images));
-  
-  return images[index];
+  try {
+    const images = await getAllImages();
+    const index = images.findIndex(img => img.id === id);
+    
+    if (index === -1) return null;
+    
+    images[index] = { ...images[index], ...updates };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(images));
+    
+    return images[index];
+  } catch (error) {
+    console.error('Error updating image:', error);
+    throw new Error('Failed to update image');
+  }
 };
 
 // Delete an image
 export const deleteImage = async (id: number): Promise<boolean> => {
-  const images = await getAllImages();
-  const updatedImages = images.filter(img => img.id !== id);
-  
-  if (updatedImages.length === images.length) return false;
-  
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(updatedImages));
-  return true;
+  try {
+    const images = await getAllImages();
+    const updatedImages = images.filter(img => img.id !== id);
+    
+    if (updatedImages.length === images.length) return false;
+    
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedImages));
+    return true;
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    throw new Error('Failed to delete image');
+  }
 };
 
-// Upload an image (in a real app, this would handle file uploads to a server/cloud storage)
+// Upload an image (handles file uploads to localStorage as base64)
 export const uploadImage = async (file: File, alt: string, category: string): Promise<GalleryImage> => {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    
-    reader.onload = async (e) => {
-      // In a real implementation, this would be a URL from your server after upload
-      const imageUrl = e.target?.result as string;
+  return new Promise((resolve, reject) => {
+    try {
+      const reader = new FileReader();
       
-      const newImage = await addImage({
-        src: imageUrl,
-        alt,
-        category
-      });
+      reader.onload = async (e) => {
+        // Store the base64 image data
+        const imageUrl = e.target?.result as string;
+        
+        try {
+          const newImage = await addImage({
+            src: imageUrl,
+            alt,
+            category
+          });
+          
+          resolve(newImage);
+        } catch (error) {
+          reject(error);
+        }
+      };
       
-      resolve(newImage);
-    };
-    
-    reader.readAsDataURL(file);
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      
+      reader.readAsDataURL(file);
+    } catch (error) {
+      reject(error);
+    }
   });
 };

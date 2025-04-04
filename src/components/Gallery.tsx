@@ -6,7 +6,7 @@ import { getAllImages } from '@/services/galleryService';
 import type { GalleryImage } from '@/services/galleryService';
 
 interface GalleryProps {
-  images?: { id: number; src: string; alt: string; category?: string }[];
+  images?: GalleryImage[];
   className?: string;
 }
 
@@ -36,7 +36,7 @@ const Gallery: React.FC<GalleryProps> = ({ images: propImages, className }) => {
     }
   }, [propImages]);
   
-  const categories = ['Tutti', ...new Set(images.map(img => img.category || 'Altro'))];
+  const categories = ['Tutti', ...new Set(images.map(img => img.category))];
   
   const filteredImages = activeCategory && activeCategory !== 'Tutti'
     ? images.filter(img => img.category === activeCategory)

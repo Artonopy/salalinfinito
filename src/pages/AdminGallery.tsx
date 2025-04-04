@@ -25,6 +25,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { getAllImages, uploadImage, updateImage, deleteImage } from '@/services/galleryService';
 import type { GalleryImage } from '@/services/galleryService';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const AdminGallery = () => {
   const [images, setImages] = useState<GalleryImage[]>([]);
@@ -44,7 +45,7 @@ const AdminGallery = () => {
       return;
     }
 
-    // Load images from the "server"
+    // Load images from storage
     const loadImages = async () => {
       setIsLoading(true);
       try {
@@ -278,45 +279,78 @@ const AdminGallery = () => {
           </Dialog>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {images.map((image) => (
-            <div key={image.id} className="border rounded-lg overflow-hidden shadow-sm">
-              <div className="aspect-[4/3] w-full overflow-hidden">
-                <img 
-                  src={image.src} 
-                  alt={image.alt} 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <span className="inline-block px-2 py-1 text-xs bg-infinito-100 text-infinito-900 rounded-full mb-2">
-                      {image.category}
-                    </span>
-                    <p className="text-sm text-infinito-700">{image.alt}</p>
+        {isLoading && images.length === 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="border rounded-lg overflow-hidden shadow-sm">
+                <Skeleton className="aspect-[4/3] w-full h-52" />
+                <div className="p-4">
+                  <Skeleton className="h-4 w-24 mb-2" />
+                  <Skeleton className="h-4 w-full" />
+                  <div className="flex space-x-2 mt-4">
+                    <Skeleton className="h-8 w-20" />
+                    <Skeleton className="h-8 w-20" />
                   </div>
                 </div>
-                <div className="flex space-x-2 mt-4">
-                  <Button variant="outline" size="sm" onClick={() => handleEdit(image)}>
-                    <Edit className="h-4 w-4 mr-1" />
-                    Modifica
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="text-red-500" 
-                    onClick={() => handleDelete(image.id)}
-                    disabled={isLoading}
-                  >
-                    <Trash2 className="h-4 w-4 mr-1" />
-                    Elimina
-                  </Button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {images.map((image) => (
+              <div key={image.id} className="border rounded-lg overflow-hidden shadow-sm">
+                <div className="aspect-[4/3] w-full overflow-hidden">
+                  <img 
+                    src={image.src} 
+                    alt={image.alt} 
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <span className="inline-block px-2 py-1 text-xs bg-infinito-100 text-infinito-900 rounded-full mb-2">
+                        {image.category}
+                      </span>
+                      <p className="text-sm text-infinito-700">{image.alt}</p>
+                    </div>
+                  </div>
+                  <div className="flex space-x-2 mt-4">
+                    <Button variant="outline" size="sm" onClick={() => handleEdit(image)}>
+                      <Edit className="h-4 w-4 mr-1" />
+                      Modifica
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-red-500" 
+                      onClick={() => handleDelete(image.id)}
+                      disabled={isLoading}
+                    >
+                      <Trash2 className="h-4 w-4 mr-1" />
+                      Elimina
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
+        
+        {!isLoading && images.length === 0 && (
+          <div className="text-center py-12 border border-dashed border-gray-300 rounded-lg">
+            <ImageIcon className="w-12 h-12 mx-auto text-gray-400 mb-4" />
+            <p className="text-xl font-medium text-gray-600 mb-2">Nessuna immagine nella galleria</p>
+            <p className="text-gray-500 mb-6">Inizia aggiungendo la tua prima immagine.</p>
+            <Button 
+              onClick={() => setDialogOpen(true)}
+              className="bg-infinito-900 hover:bg-infinito-800"
+            >
+              <PlusCircle className="mr-2 h-4 w-4" /> Aggiungi Immagine
+            </Button>
+          </div>
+        )}
       </div>
       
       <Footer />

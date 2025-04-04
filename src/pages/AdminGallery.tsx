@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -22,13 +23,8 @@ import { toast } from '@/components/ui/use-toast';
 import { PlusCircle, Trash2, LogOut, Edit, Image as ImageIcon, FileText } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
-interface GalleryImage {
-  id: number;
-  src: string;
-  alt: string;
-  category: string;
-}
+import { getAllImages, uploadImage, updateImage, deleteImage } from '@/services/galleryService';
+import type { GalleryImage } from '@/services/galleryService';
 
 const AdminGallery = () => {
   const [images, setImages] = useState<GalleryImage[]>([]);
@@ -38,6 +34,7 @@ const AdminGallery = () => {
   const [category, setCategory] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,39 +44,24 @@ const AdminGallery = () => {
       return;
     }
 
-    const savedImages = localStorage.getItem('galleryImages');
-    if (savedImages) {
-      setImages(JSON.parse(savedImages));
-    } else {
-      const defaultImages = [
-        {
-          id: 1,
-          src: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          alt: "Elegante ricevimento di nozze con lampadari",
-          category: "Matrimoni"
-        },
-        {
-          id: 2,
-          src: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          alt: "Allestimento per conferenza aziendale con arredamento moderno",
-          category: "Aziendali"
-        },
-        {
-          id: 3,
-          src: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          alt: "Celebrazione di compleanno con illuminazione decorativa",
-          category: "Compleanni"
-        },
-        {
-          id: 4,
-          src: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          alt: "Cena di gala con allestimenti formali",
-          category: "Gala"
-        }
-      ];
-      setImages(defaultImages);
-      localStorage.setItem('galleryImages', JSON.stringify(defaultImages));
-    }
+    // Load images from the "server"
+    const loadImages = async () => {
+      setIsLoading(true);
+      try {
+        const serverImages = await getAllImages();
+        setImages(serverImages);
+      } catch (error) {
+        toast({
+          variant: 'destructive',
+          title: 'Errore',
+          description: 'Impossibile caricare le immagini. Riprova più tardi.',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadImages();
   }, [navigate]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,68 +77,96 @@ const AdminGallery = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     
-    if (editingId !== null) {
-      const updatedImages = images.map(img => 
-        img.id === editingId 
-          ? { ...img, alt: title, category: category } 
-          : img
-      );
-      
-      setImages(updatedImages);
-      localStorage.setItem('galleryImages', JSON.stringify(updatedImages));
-      
-      toast({
-        title: 'Immagine Aggiornata',
-        description: 'L\'immagine è stata aggiornata con successo.'
-      });
-    } else if (newImage && preview && title) {
-      const newId = images.length > 0 ? Math.max(...images.map(img => img.id)) + 1 : 1;
-      
-      const newImageObj = {
-        id: newId,
-        src: preview,
-        alt: title,
-        category: category || 'Altro'
-      };
-      
-      const updatedImages = [...images, newImageObj];
-      setImages(updatedImages);
-      
-      localStorage.setItem('galleryImages', JSON.stringify(updatedImages));
-      
-      toast({
-        title: 'Immagine Caricata',
-        description: 'L\'immagine è stata aggiunta alla galleria.'
-      });
-    } else {
+    try {
+      if (editingId !== null) {
+        // Update existing image
+        const updatedImage = await updateImage(editingId, { 
+          alt: title, 
+          category: category || 'Altro'
+        });
+        
+        if (updatedImage) {
+          setImages(prev => 
+            prev.map(img => img.id === editingId ? updatedImage : img)
+          );
+          
+          toast({
+            title: 'Immagine Aggiornata',
+            description: 'L\'immagine è stata aggiornata con successo.'
+          });
+        }
+      } else if (newImage && title) {
+        // Upload new image
+        const uploadedImage = await uploadImage(
+          newImage,
+          title,
+          category || 'Altro'
+        );
+        
+        setImages(prev => [...prev, uploadedImage]);
+        
+        toast({
+          title: 'Immagine Caricata',
+          description: 'L\'immagine è stata aggiunta alla galleria.'
+        });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Errore',
+          description: 'Per favore seleziona un\'immagine e aggiungi una descrizione.'
+        });
+        setIsLoading(false);
+        return;
+      }
+    } catch (error) {
       toast({
         variant: 'destructive',
         title: 'Errore',
-        description: 'Per favore seleziona un\'immagine e aggiungi una descrizione.'
+        description: 'Si è verificato un errore durante il salvataggio. Riprova più tardi.'
       });
-      return;
+    } finally {
+      setIsLoading(false);
+      setNewImage(null);
+      setPreview(null);
+      setTitle('');
+      setCategory('');
+      setEditingId(null);
+      setDialogOpen(false);
     }
-    
-    setNewImage(null);
-    setPreview(null);
-    setTitle('');
-    setCategory('');
-    setEditingId(null);
-    setDialogOpen(false);
   };
 
-  const handleDelete = (id: number) => {
-    const updatedImages = images.filter(img => img.id !== id);
-    setImages(updatedImages);
-    localStorage.setItem('galleryImages', JSON.stringify(updatedImages));
-    
-    toast({
-      title: 'Immagine Eliminata',
-      description: 'L\'immagine è stata rimossa dalla galleria.'
-    });
+  const handleDelete = async (id: number) => {
+    setIsLoading(true);
+    try {
+      const success = await deleteImage(id);
+      
+      if (success) {
+        setImages(images.filter(img => img.id !== id));
+        
+        toast({
+          title: 'Immagine Eliminata',
+          description: 'L\'immagine è stata rimossa dalla galleria.'
+        });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Errore',
+          description: 'Impossibile eliminare l\'immagine. Riprova più tardi.'
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Errore',
+        description: 'Si è verificato un errore durante l\'eliminazione. Riprova più tardi.'
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleEdit = (image: GalleryImage) => {
@@ -259,8 +269,8 @@ const AdminGallery = () => {
                 </div>
                 
                 <div className="flex justify-end pt-4">
-                  <Button type="submit">
-                    {editingId !== null ? 'Aggiorna' : 'Carica'}
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading ? 'Caricamento...' : editingId !== null ? 'Aggiorna' : 'Carica'}
                   </Button>
                 </div>
               </form>
@@ -292,7 +302,13 @@ const AdminGallery = () => {
                     <Edit className="h-4 w-4 mr-1" />
                     Modifica
                   </Button>
-                  <Button variant="outline" size="sm" className="text-red-500" onClick={() => handleDelete(image.id)}>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="text-red-500" 
+                    onClick={() => handleDelete(image.id)}
+                    disabled={isLoading}
+                  >
                     <Trash2 className="h-4 w-4 mr-1" />
                     Elimina
                   </Button>

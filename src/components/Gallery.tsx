@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { getAllImages } from '@/services/galleryService';
+import type { GalleryImage } from '@/services/galleryService';
 
 interface GalleryProps {
   images?: { id: number; src: string; alt: string; category?: string }[];
@@ -11,17 +13,26 @@ interface GalleryProps {
 const Gallery: React.FC<GalleryProps> = ({ images: propImages, className }) => {
   const [activeImage, setActiveImage] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  const [images, setImages] = useState<{ id: number; src: string; alt: string; category?: string }[]>([]);
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   
-  // Load images from localStorage or use prop images
+  // Load images from the server or use prop images
   useEffect(() => {
     if (propImages && propImages.length > 0) {
       setImages(propImages);
     } else {
-      const savedImages = localStorage.getItem('galleryImages');
-      if (savedImages) {
-        setImages(JSON.parse(savedImages));
-      }
+      setIsLoading(true);
+      // Fetch images from our "server"
+      getAllImages()
+        .then(serverImages => {
+          setImages(serverImages);
+        })
+        .catch(error => {
+          console.error("Failed to load gallery images:", error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   }, [propImages]);
   
@@ -53,6 +64,15 @@ const Gallery: React.FC<GalleryProps> = ({ images: propImages, className }) => {
     if (e.key === 'ArrowRight') goToNext();
     if (e.key === 'ArrowLeft') goToPrev();
   };
+  
+  if (isLoading) {
+    return (
+      <div className={cn("w-full text-center py-12", className)}>
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
+        <p className="mt-4 text-infinito-700">Caricamento immagini...</p>
+      </div>
+    );
+  }
   
   return (
     <div className={cn("w-full", className)} onKeyDown={handleKeyDown} tabIndex={0}>
@@ -96,6 +116,13 @@ const Gallery: React.FC<GalleryProps> = ({ images: propImages, className }) => {
           </div>
         ))}
       </div>
+      
+      {/* Empty state */}
+      {filteredImages.length === 0 && (
+        <div className="text-center py-12 border border-dashed border-gray-300 rounded-lg">
+          <p className="text-infinito-700">Nessuna immagine disponibile per questa categoria</p>
+        </div>
+      )}
       
       {/* Lightbox Modal */}
       {activeImage !== null && (

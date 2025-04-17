@@ -12,6 +12,12 @@ import AdminGallery from "./pages/AdminGallery";
 import AdminBookings from "./pages/AdminBookings";
 import NotFound from "./pages/NotFound";
 
+// Supabase public info (don't worry, these are public and can be exposed)
+window.env = {
+  VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL || "",
+  VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY || ""
+};
+
 const queryClient = new QueryClient();
 
 const App = () => (

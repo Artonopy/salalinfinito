@@ -42,21 +42,65 @@ const initializeDefaultImages = (): GalleryImage[] => {
   ];
 };
 
-// Using localStorage instead of sessionStorage for persistence across browser sessions
-// For a GitHub-hosted site, localStorage is the most persistent client-side option
-const STORAGE_KEY = 'gallery_images';
+// Remote storage simulation using localStorage with versioning to ensure data consistency
+const STORAGE_KEY = 'gallery_images_v2';
+const LAST_UPDATE_KEY = 'gallery_last_update';
 
-// Get all images
-export const getAllImages = async (): Promise<GalleryImage[]> => {
+// Get last update timestamp
+const getLastUpdateTimestamp = (): number => {
+  const timestamp = localStorage.getItem(LAST_UPDATE_KEY);
+  return timestamp ? parseInt(timestamp, 10) : 0;
+};
+
+// Set last update timestamp
+const setLastUpdateTimestamp = (): void => {
+  localStorage.setItem(LAST_UPDATE_KEY, Date.now().toString());
+};
+
+// Fetch remote data (simulated)
+const fetchRemoteData = async (): Promise<GalleryImage[]> => {
+  // In a real implementation, this would be an API call to a backend service
+  // For now, we'll use localStorage as our "remote" storage
   try {
     const storedImages = localStorage.getItem(STORAGE_KEY);
     if (storedImages) {
       return JSON.parse(storedImages);
-    } 
+    }
+    return [];
+  } catch (error) {
+    console.error("Error fetching remote data:", error);
+    return [];
+  }
+};
+
+// Save remote data (simulated)
+const saveRemoteData = async (images: GalleryImage[]): Promise<boolean> => {
+  // In a real implementation, this would be an API call to a backend service
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(images));
+    setLastUpdateTimestamp();
+    return true;
+  } catch (error) {
+    console.error("Error saving remote data:", error);
+    return false;
+  }
+};
+
+// Get all images
+export const getAllImages = async (): Promise<GalleryImage[]> => {
+  try {
+    // Fetch data from "remote" storage
+    const remoteImages = await fetchRemoteData();
     
-    // If there are no images in storage, initialize with defaults
+    // If there are images in remote storage, return them
+    if (remoteImages && remoteImages.length > 0) {
+      return remoteImages;
+    }
+    
+    // If there are no images in remote storage, initialize with defaults
+    // and save to remote storage
     const defaultImages = initializeDefaultImages();
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultImages));
+    await saveRemoteData(defaultImages);
     return defaultImages;
   } catch (error) {
     console.error('Error fetching gallery images:', error);
@@ -67,13 +111,16 @@ export const getAllImages = async (): Promise<GalleryImage[]> => {
 // Add a new image
 export const addImage = async (image: Omit<GalleryImage, 'id'>): Promise<GalleryImage> => {
   try {
+    // Get current images from "remote" storage
     const images = await getAllImages();
     
+    // Create new image with unique ID
     const newId = images.length > 0 ? Math.max(...images.map(img => img.id)) + 1 : 1;
     const newImage = { ...image, id: newId };
     
+    // Update remote storage
     const updatedImages = [...images, newImage];
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedImages));
+    await saveRemoteData(updatedImages);
     
     return newImage;
   } catch (error) {
@@ -85,13 +132,17 @@ export const addImage = async (image: Omit<GalleryImage, 'id'>): Promise<Gallery
 // Update an existing image
 export const updateImage = async (id: number, updates: Partial<GalleryImage>): Promise<GalleryImage | null> => {
   try {
+    // Get current images from "remote" storage
     const images = await getAllImages();
     const index = images.findIndex(img => img.id === id);
     
     if (index === -1) return null;
     
+    // Update image
     images[index] = { ...images[index], ...updates };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(images));
+    
+    // Save to remote storage
+    await saveRemoteData(images);
     
     return images[index];
   } catch (error) {
@@ -103,12 +154,14 @@ export const updateImage = async (id: number, updates: Partial<GalleryImage>): P
 // Delete an image
 export const deleteImage = async (id: number): Promise<boolean> => {
   try {
+    // Get current images from "remote" storage
     const images = await getAllImages();
     const updatedImages = images.filter(img => img.id !== id);
     
     if (updatedImages.length === images.length) return false;
     
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedImages));
+    // Save to remote storage
+    await saveRemoteData(updatedImages);
     return true;
   } catch (error) {
     console.error('Error deleting image:', error);
@@ -116,17 +169,18 @@ export const deleteImage = async (id: number): Promise<boolean> => {
   }
 };
 
-// Upload an image (handles file uploads to localStorage as base64)
+// Upload an image (handles file uploads to "remote" storage as base64)
 export const uploadImage = async (file: File, alt: string, category: string): Promise<GalleryImage> => {
   return new Promise((resolve, reject) => {
     try {
       const reader = new FileReader();
       
       reader.onload = async (e) => {
-        // Store the base64 image data
+        // Get the base64 image data
         const imageUrl = e.target?.result as string;
         
         try {
+          // Add image to "remote" storage
           const newImage = await addImage({
             src: imageUrl,
             alt,
@@ -143,6 +197,7 @@ export const uploadImage = async (file: File, alt: string, category: string): Pr
         reject(error);
       };
       
+      // Read file as Data URL (base64)
       reader.readAsDataURL(file);
     } catch (error) {
       reject(error);
